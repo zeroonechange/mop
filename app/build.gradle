@@ -19,16 +19,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-            useBuildCache = true
-            javacOptions {
-                option("-Xmaxerrs", 500)
-            }
-        }
     }
 
     buildTypes {
@@ -54,8 +44,4 @@ android {
 
 dependencies {
     implementation project(path: ':base')
-
-    implementation 'com.alibaba:arouter-api:1.5.1'
-    kapt 'com.alibaba:arouter-compiler:1.5.1'
-
 }
