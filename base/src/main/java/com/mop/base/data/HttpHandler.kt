@@ -1,10 +1,12 @@
 package com.mop.base.data
 
 import com.google.gson.JsonSyntaxException
+import com.mop.base.mvvm.DataStatus
 import com.mop.base.mvvm.IBaseResponse
 import com.mop.base.mvvm.ResultResponse
 import com.mop.base.utils.LogUtil
 import com.mop.base.utils.LoginServiceUtil
+import com.mop.base.utils.NetworkUtil
 
 import org.json.JSONException
 import retrofit2.HttpException

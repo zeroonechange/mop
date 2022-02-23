@@ -221,56 +221,6 @@ object DateUtil {
         }
     }
 
-    fun getShowDateString(time: String?): String {
-        if (time == null) return ""
-        return getShowDateString2(time)
-
-//        return if (!isSameDate(
-//                SimpleDateFormat(YMDHMS_, Locale.getDefault()).parse(time),
-//                Date()
-//            )
-//        ) {
-//            DateUtils.timeStamp2Date(
-//                DateUtils.date2TimeStamp(
-//                    time,
-//                    DateUtils.FORMAT_YYYY_MM_DD_HH_MM_SS
-//                ).toString(), YMDHM_
-//            )
-//        } else {
-//            val arr = parseYMDHMS_ToDHM(time, formatYMDHMS_()) ?: return ""
-//
-//            if (arr[0] == 1) {
-//                DateUtils.formatDateTime(
-//                    DateUtils.date2TimeStamp(
-//                        time,
-//                        DateUtils.FORMAT_YYYY_MM_DD_HH_MM_SS
-//                    )
-//                )
-//            } else if (arr[0] > 1) {
-//                if (arr[0] < 365) {
-//                    DateUtils.timeStamp2Date(
-//                        DateUtils.date2TimeStamp(
-//                            time,
-//                            DateUtils.FORMAT_YYYY_MM_DD_HH_MM_SS
-//                        ).toString(), MDHM
-//                    )
-//                } else {
-//                    DateUtils.timeStamp2Date(
-//                        DateUtils.date2TimeStamp(
-//                            time,
-//                            DateUtils.FORMAT_yyyy_MM_dd
-//                        ).toString(), YMD_
-//                    )
-//                }
-//            } else if (arr[0] == 0 && arr[1] > 0) {
-//                "" + arr[1] + "小时前"
-//            } else if (arr[0] == 0 && arr[1] == 0 && arr[2] > 5) {
-//                "" + arr[2] + "分钟前"
-//            } else {
-//                "刚刚"
-//            }
-//        }
-    }
 
     /**
      * 判断是否同一年
