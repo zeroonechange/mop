@@ -8,6 +8,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // https://wanandroid.com/banner/json
+
+        // https://wanandroid.com/article/top/json
+
+        // https://wanandroid.com/article/list/1/json
+
 
     }
 }

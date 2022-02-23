@@ -71,12 +71,17 @@ dependencies {
 
     api 'androidx.collection:collection-ktx:1.2.0'
 
+    //路由组件
     api 'com.alibaba:arouter-api:1.5.1'
     kapt 'com.alibaba:arouter-compiler:1.5.1'
 
     // 网络请求
     api "com.squareup.retrofit2:retrofit:2.9.0"
     api "com.squareup.retrofit2:converter-gson:2.9.0"
+
+    // 网络请求日志拦截
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 
     // 测试
     testApi 'junit:junit:4.+'
