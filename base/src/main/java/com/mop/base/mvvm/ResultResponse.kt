@@ -10,11 +10,7 @@ import com.mop.base.utils.bus.LiveBusStick
 import com.mop.base.utils.bus.LiveDataBus
 
 open class ResultResponse<T>(
-    var data: T?,
-    var code: Int?,
-    var message: String?,
-    var success : Boolean?,
-    var status: DataStatus?
+    var data: T?, var code: Int?, var message: String?, var success: Boolean?, var status: DataStatus?
 ) : IBaseResponse<T> {
     override fun code() = if (success == true) 0 else code
 
@@ -25,10 +21,8 @@ open class ResultResponse<T>(
     override fun isSuccess() = if (success == true) true else code == 0
 
     fun onResult(
-        onSuccess: ((data: T?) -> Unit)? = null,
-        onError: ((code: Int, message: String?) -> Unit)? = null
-    ) {
-        // 防止状态码为 null
+        onSuccess: ((data: T?) -> Unit)? = null, onError: ((code: Int, message: String?) -> Unit)? = null
+    ) { // 防止状态码为 null
         if (null == code) {
             code = entityCodeNullable
             message = msgEntityCodeNullable

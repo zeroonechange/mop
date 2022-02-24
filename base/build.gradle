@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'com.alibaba.arouter'
 }
@@ -29,8 +28,10 @@ android {
         }
     }
 
+
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 
     buildTypes {
@@ -59,6 +60,8 @@ dependencies {
     api 'com.google.android.material:material:1.4.0'
     api 'androidx.constraintlayout:constraintlayout:2.1.0'
     api 'com.kingja.loadsir:loadsir:1.3.8'
+    api 'androidx.slidingpanelayout:slidingpanelayout:1.1.0'
+
 
     // MVVM
     api 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
@@ -67,7 +70,7 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     api 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.3.1'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    api 'androidx.lifecycle:lifecycle-extensions:2.3.1'
+//    api 'androidx.lifecycle:lifecycle-extensions:2.3.1'
 
     api 'androidx.collection:collection-ktx:1.2.0'
 

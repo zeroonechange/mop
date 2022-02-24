@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.kingja.loadsir.callback.Callback
 import com.mop.base.app.RepositoryManager
 import com.mop.base.data.HttpHandler
+import com.mop.base.utils.CheckUtil
 import com.mop.base.utils.bus.LiveDataBus
+import com.mop.base.utils.isInUIThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
@@ -137,9 +139,53 @@ open class BaseViewModel<M : BaseModel>(app: Application) : AndroidViewModel(app
     class UiChangeLiveData {
         var showLoadingDialogEvent: SingleLiveEvent<String?>? = null
         var dismissLoadingDialogEvent: SingleLiveEvent<Any?>? = null
+
         var startActivityEvent: String? = null
+        var startActivityWithMapEvent: String? = null
+        var startActivityEventWithBundle: String? = null
+
+        var startActivityForResultEvent: String? = null
+        var startActivityForResultEventWithMap: String? = null
+        var startActivityForResultEventWithBundle: String? = null
+
         var finishEvent: String? = null
+        var setResultEvent: String? = null
+
         var loadSirEvent: SingleLiveEvent<Class<out Callback>?>? = null
+
+        fun initLoadSirEvent() {
+            loadSirEvent = SingleLiveEvent()
+        }
+
+        fun initLoadingDialogEvent() {
+            showLoadingDialogEvent = SingleLiveEvent()
+            dismissLoadingDialogEvent = SingleLiveEvent()
+        }
+
+        fun initStartActivityForResultEvent() {
+            startActivityForResultEvent = UUID.randomUUID().toString()
+            startActivityForResultEventWithMap = UUID.randomUUID().toString()
+            startActivityForResultEventWithBundle = UUID.randomUUID().toString()
+        }
+
+        fun initStartAndFinishEvent() {
+            startActivityEvent = UUID.randomUUID().toString()
+            startActivityWithMapEvent = UUID.randomUUID().toString()
+            startActivityEventWithBundle = UUID.randomUUID().toString()
+            finishEvent = UUID.randomUUID().toString()
+            setResultEvent = UUID.randomUUID().toString()
+        }
     }
+
+
+    fun showLoadSirSuccess() {
+        CheckUtil.checkLoadSirEvent(mUiChangeLiveData.loadSirEvent)
+        if (isInUIThread()) {
+            mUiChangeLiveData.loadSirEvent?.value = null
+        } else {
+            mUiChangeLiveData.loadSirEvent?.postValue(null)
+        }
+    }
+
 
 }

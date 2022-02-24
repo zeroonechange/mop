@@ -53,8 +53,8 @@ object DateUtil {
     fun submissionTime(): String? {
         try {
             val cal = Calendar.getInstance()
-            cal.add(Calendar.SECOND,1)
-            return  SimpleDateFormat(YMDHMS_,Locale.getDefault()).format(cal.time)
+            cal.add(Calendar.SECOND, 1)
+            return SimpleDateFormat(YMDHMS_, Locale.getDefault()).format(cal.time)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -72,13 +72,11 @@ object DateUtil {
         try {
             val start = df.parse(dateStart)!!
             val end = df.parse(dateEnd)!!
-            val diff = end.time - start.time//这样得到的差值是微秒级别
+            val diff = end.time - start.time //这样得到的差值是微秒级别
             val days = (diff / (1000 * 60 * 60 * 24)).toInt()
 
             val hours = ((diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toInt()
-            val minutes =
-                ((diff - (days * (1000 * 60 * 60 * 24)).toLong() - (hours * (1000 * 60 * 60)).toLong()) / (1000 * 60)).toInt()
-            //  System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
+            val minutes = ((diff - (days * (1000 * 60 * 60 * 24)).toLong() - (hours * (1000 * 60 * 60)).toLong()) / (1000 * 60)).toInt() //  System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
             val arr = IntArray(3)
             arr[0] = days
             arr[1] = hours
@@ -99,7 +97,7 @@ object DateUtil {
         try {
             val start = df.parse(dateStart)!!
             val end = df.parse(dateEnd)!!
-            return end.time - start.time//这样得到的差值是微秒级别
+            return end.time - start.time //这样得到的差值是微秒级别
         } catch (ignored: Exception) {
         }
 
@@ -110,13 +108,9 @@ object DateUtil {
         val hour = diff / (60 * 1000 * 60)
         val min = diff / (60 * 1000) - hour * 60
         val sec = diff / 1000 - hour * 60 * 60 - min * 60
-        return "$hour:" + (if (min < 10)
-            "0$min"
-        else
-            min) + ":" + if (sec < 10)
-            "0$sec"
-        else
-            sec
+        return "$hour:" + (if (min < 10) "0$min"
+        else min) + ":" + if (sec < 10) "0$sec"
+        else sec
     }
 
     fun getDdHhMmSs(diff: Long): String {
@@ -125,19 +119,11 @@ object DateUtil {
         val sec = diff / 1000 - hour * 60 * 60 - min * 60
         val day = hour / 24
         hour %= 24
-        return if (day == 0L)
-            ""
-        else
-            day.toString() + "天" + (if (hour < 10)
-                "0$hour"
-            else
-                hour) + ":" + (if (min < 10)
-                "0$min"
-            else
-                min) + ":" + if (sec < 10)
-                "0$sec"
-            else
-                sec
+        return if (day == 0L) ""
+        else day.toString() + "天" + (if (hour < 10) "0$hour"
+        else hour) + ":" + (if (min < 10) "0$min"
+        else min) + ":" + if (sec < 10) "0$sec"
+        else sec
     }
 
     fun parseYMDHMS_FrontZero(source: String, field: Int, targetLen: Int): String? {

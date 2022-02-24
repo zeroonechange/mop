@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
 
-
 import com.mop.base.app.BaseApp;
 
 import java.util.Collections;
@@ -56,7 +55,7 @@ public final class SPUtils {
     /**
      * SP中写入String
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void put(@NonNull final String key, @NonNull final String value) {
@@ -76,7 +75,7 @@ public final class SPUtils {
     /**
      * SP中读取String
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */
@@ -87,7 +86,7 @@ public final class SPUtils {
     /**
      * SP中写入int
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void put(@NonNull final String key, final int value) {
@@ -107,7 +106,7 @@ public final class SPUtils {
     /**
      * SP中读取int
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */
@@ -118,7 +117,7 @@ public final class SPUtils {
     /**
      * SP中写入long
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void put(@NonNull final String key, final long value) {
@@ -138,7 +137,7 @@ public final class SPUtils {
     /**
      * SP中读取long
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */
@@ -149,7 +148,7 @@ public final class SPUtils {
     /**
      * SP中写入float
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void put(@NonNull final String key, final float value) {
@@ -169,7 +168,7 @@ public final class SPUtils {
     /**
      * SP中读取float
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */
@@ -180,7 +179,7 @@ public final class SPUtils {
     /**
      * SP中写入boolean
      *
-     * @param key 键
+     * @param key   键
      * @param value 值
      */
     public void put(@NonNull final String key, final boolean value) {
@@ -200,7 +199,7 @@ public final class SPUtils {
     /**
      * SP中读取boolean
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */
@@ -211,7 +210,7 @@ public final class SPUtils {
     /**
      * SP中写入String集合
      *
-     * @param key 键
+     * @param key    键
      * @param values 值
      */
     public void put(@NonNull final String key, @NonNull final Set<String> values) {
@@ -231,7 +230,7 @@ public final class SPUtils {
     /**
      * SP中读取StringSet
      *
-     * @param key 键
+     * @param key          键
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值{@code defaultValue}
      */

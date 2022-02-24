@@ -21,5 +21,5 @@ public interface RouterTable {
      * 登录界面
      */
     String PATH_PAGE_LOGIN = "/module_login/LoginDistributeActivity";
-    
+
 }

@@ -12,18 +12,15 @@ import java.util.concurrent.atomic.AtomicBoolean
  * 反复注册观察并不会触发重新通知。
  */
 class SingleLiveEvent<T> : MutableLiveData<T?>() {
-    private val mPending =
-        AtomicBoolean(false)
+    private val mPending = AtomicBoolean(false)
 
     @MainThread
     override fun observe(
-        owner: LifecycleOwner,
-        observer: Observer<in T?>
+        owner: LifecycleOwner, observer: Observer<in T?>
     ) {
         if (hasActiveObservers()) {
             LogUtil.w(
-                TAG,
-                "Multiple observers registered but only one will be notified of changes."
+                TAG, "Multiple observers registered but only one will be notified of changes."
             )
         }
 

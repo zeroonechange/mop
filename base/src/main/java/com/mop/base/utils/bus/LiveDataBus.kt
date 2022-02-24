@@ -22,14 +22,12 @@ object LiveDataBus {
      *
      * 下同。
      */
-    private val mLiveDataMap =
-        ArrayMap<Any /* registrants */, ArrayMap<Any /* tag */, Pair<MutableLiveData<Any>, Observer<Any>>>>()
+    private val mLiveDataMap = ArrayMap<Any /* registrants */, ArrayMap<Any /* tag */, Pair<MutableLiveData<Any>, Observer<Any>>>>()
 
     /**
      * 粘性事件，一个 tag 对应一个列表，每个元素表示一个注册者，包含的数据在 [StickyData]
      */
-    private val mStickyLiveDataMap =
-        ArrayMap<Any /* tag */, MutableList<StickyData>>()
+    private val mStickyLiveDataMap = ArrayMap<Any /* tag */, MutableList<StickyData>>()
 
     /**
      * 监听事件，[registrants] 如果是 V 和 VM，那么无需手动移除监听，框架已经实现了自动移除。
@@ -39,10 +37,7 @@ object LiveDataBus {
      * 如果是 true 的话，那么事件将和生命周期无关，即在 A 页面监听，打开 B 页面发送事件，A 也可以收到。
      */
     fun <R : Any> observe(
-        registrants: Any,
-        tag: Any,
-        observer: Observer<R>,
-        isForever: Boolean = registrants !is LifecycleOwner
+        registrants: Any, tag: Any, observer: Observer<R>, isForever: Boolean = registrants !is LifecycleOwner
     ) {
         val liveData = MutableLiveData<R>()
         var objMap = mLiveDataMap[registrants]
@@ -89,11 +84,8 @@ object LiveDataBus {
      * 都需要手动调用 [removeStickyObserver]，框架中 V 和 VM 中已实现移除，故在 V、VM 使用使用，无需手动移除
      */
     fun <R : Any> observeSticky(
-        registrants: Any,
-        tag: Any,
-        observer: Observer<R>
-    ) {
-        // 一个 tag 对应多个监听者
+        registrants: Any, tag: Any, observer: Observer<R>
+    ) { // 一个 tag 对应多个监听者
         var list = mStickyLiveDataMap[tag]
         if (list == null) {
             list = mutableListOf()
@@ -109,11 +101,9 @@ object LiveDataBus {
             }
         }
 
-        val obs = observer as Observer<Any>
-        // 没有 liveData，则创建
+        val obs = observer as Observer<Any> // 没有 liveData，则创建
         if (stickyData == null) {
-            val liveData = MutableLiveData<Any>()
-            // 新创建的 liveData，需要有效数据
+            val liveData = MutableLiveData<Any>() // 新创建的 liveData，需要有效数据
             if (list.isNotEmpty()) {
                 val data = list[0]
                 if (data.isValueValid) {
@@ -137,9 +127,7 @@ object LiveDataBus {
      * 发送粘性事件
      */
     fun sendSticky(
-        tag: Any,
-        result: Any,
-        inUiThread: Boolean = Looper.getMainLooper().thread == Thread.currentThread()
+        tag: Any, result: Any, inUiThread: Boolean = Looper.getMainLooper().thread == Thread.currentThread()
     ) {
         var list = mStickyLiveDataMap[tag]
         if (list == null) {
@@ -200,9 +188,7 @@ object LiveDataBus {
      * 发送消息，只要是相同的 tag，就会触发对应的 LiveData，不管这个 tag 是在哪里注册的。包括粘性事件，也可以接收普通的事件。
      */
     fun send(
-        tag: Any,
-        result: Any,
-        inUiThread: Boolean = Looper.getMainLooper().thread == Thread.currentThread()
+        tag: Any, result: Any, inUiThread: Boolean = Looper.getMainLooper().thread == Thread.currentThread()
     ) {
         mLiveDataMap.forEach {
             if (it.value == null) return

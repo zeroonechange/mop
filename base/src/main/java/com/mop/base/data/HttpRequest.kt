@@ -1,21 +1,14 @@
 package com.mop.base.data
 
-import android.text.format.DateUtils
-import android.util.Log
-import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.collection.ArrayMap
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.google.gson.Gson
 import com.mop.base.app.BaseApp
 import com.mop.base.data.config.GlobalConfig
 import com.mop.base.data.interceptor.HeaderInterceptor
 import com.mop.base.data.interceptor.logging.Level
 import com.mop.base.data.interceptor.logging.LoggingInterceptor
-import com.mop.base.mvvm.IBaseResponse
 import com.mop.base.utils.*
-
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -200,14 +193,14 @@ object HttpRequest {
         addDefaultHeader("SourceType", "ANDROID")
         addDefaultHeader("SourceAppVer", AppUtil.versionName)
 
-      /*  val timeStamp = DateUtils.date2TimeStamp(DateUtil.formatYMDHMS_(), DateUtil.YMDHMS_).toString()
-        addDefaultHeader("AppId", "GWM719278367448862")
-        addDefaultHeader("Secret", "8bc742859a7849ec9a924c979afa5a00")
-        addDefaultHeader("TimeStamp", timeStamp)
-        addDefaultHeader(
-            "Sign", Sha256Util.encryption(timeStamp + "GWM719278367448862" + "8bc742859a7849ec9a924c979afa5a00")
-        )
-        addDefaultHeader("DeviceId", DeviceIdUtils.getDeviceId(BaseApp.getInstance()))*/
+        /*  val timeStamp = DateUtils.date2TimeStamp(DateUtil.formatYMDHMS_(), DateUtil.YMDHMS_).toString()
+          addDefaultHeader("AppId", "GWM719278367448862")
+          addDefaultHeader("Secret", "8bc742859a7849ec9a924c979afa5a00")
+          addDefaultHeader("TimeStamp", timeStamp)
+          addDefaultHeader(
+              "Sign", Sha256Util.encryption(timeStamp + "GWM719278367448862" + "8bc742859a7849ec9a924c979afa5a00")
+          )
+          addDefaultHeader("DeviceId", DeviceIdUtils.getDeviceId(BaseApp.getInstance()))*/
     }
 
     /**
@@ -229,33 +222,33 @@ object HttpRequest {
 
     @JvmStatic
     fun <T, R> request(
-        call: Call<T>, callback: CommonObserver<R>
+    call: Call<T>, callback: CommonObserver<R>
     ): Call<T> {
-        callback.onStart()
+    callback.onStart()
 
-        call.enqueue(object : Callback<T> {
-            override fun onResponse(
-                call: Call<T>, response: Response<T>
-            ) {
-                val baseResponse = response.body()
+    call.enqueue(object : Callback<T> {
+    override fun onResponse(
+    call: Call<T>, response: Response<T>
+    ) {
+    val baseResponse = response.body()
 
-                @Suppress("UNCHECKED_CAST") val resp = baseResponse as? IBaseResponse<R>
-                if (resp == null) {
-                    callback.onFailed(entityNullable, msgEntityNullable)
-                } else {
-                    callback.onNext(resp)
-                }
-                callback.onComplete()
-            }
+    @Suppress("UNCHECKED_CAST") val resp = baseResponse as? IBaseResponse<R>
+    if (resp == null) {
+    callback.onFailed(entityNullable, msgEntityNullable)
+    } else {
+    callback.onNext(resp)
+    }
+    callback.onComplete()
+    }
 
-            override fun onFailure(
-                call: Call<T>, t: Throwable
-            ) {
-                callback.onError(t)
-                callback.onComplete()
-            }
-        })
-        return call
+    override fun onFailure(
+    call: Call<T>, t: Throwable
+    ) {
+    callback.onError(t)
+    callback.onComplete()
+    }
+    })
+    return call
     }
      */
 }

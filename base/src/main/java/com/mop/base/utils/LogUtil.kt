@@ -1,17 +1,11 @@
 package com.mop.base.utils
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
 import android.util.Log
-import android.view.View
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.appcompat.app.AlertDialog
 import com.mop.base.BuildConfig
 import com.mop.base.app.BaseApp
 import com.mop.base.data.config.GlobalConfig
@@ -70,8 +64,7 @@ object LogUtil {
         mBufferWrite = BufferedWriter(
             OutputStreamWriter(
                 FileOutputStream(
-                    FileUtil.appLogDir + mCurDateTime + ".log",
-                    true
+                    FileUtil.appLogDir + mCurDateTime + ".log", true
                 )
             )
         )
@@ -88,8 +81,7 @@ object LogUtil {
                     mBufferWrite = BufferedWriter(
                         OutputStreamWriter(
                             FileOutputStream(
-                                FileUtil.appLogDir + mCurDateTime + ".log",
-                                true
+                                FileUtil.appLogDir + mCurDateTime + ".log", true
                             )
                         )
                     )
@@ -111,12 +103,9 @@ object LogUtil {
 
         sb.append("appVerName:").append(AppUtil.versionName).append(lineSeparator)
         sb.append("appVerCode:").append(AppUtil.versionCode).append(lineSeparator)
-        sb.append("buildType:").append(BuildConfig.BUILD_TYPE).append(lineSeparator)
-        // 系统版本
-        sb.append("OsVer:").append(Build.VERSION.RELEASE).append(lineSeparator)
-        // 手机厂商
-        sb.append("vendor:").append(Build.MANUFACTURER).append(lineSeparator)
-        // 型号
+        sb.append("buildType:").append(BuildConfig.BUILD_TYPE).append(lineSeparator) // 系统版本
+        sb.append("OsVer:").append(Build.VERSION.RELEASE).append(lineSeparator) // 手机厂商
+        sb.append("vendor:").append(Build.MANUFACTURER).append(lineSeparator) // 型号
         sb.append("model:").append(Build.MODEL).append(lineSeparator)
         sb.append(lineSeparator)
         sb.append(lineSeparator)
@@ -189,8 +178,7 @@ object LogUtil {
         if (!isLog()) {
             return
         }
-        val stackTrace =
-            Thread.currentThread().stackTrace
+        val stackTrace = Thread.currentThread().stackTrace
         val index = 4
         val className = stackTrace[index].fileName
         var methodName = stackTrace[index].methodName
@@ -198,8 +186,7 @@ object LogUtil {
         val tag = tagStr ?: className
         methodName = methodName.substring(0, 1).toUpperCase(Locale.getDefault()) + methodName.substring(1)
         val stringBuilder = StringBuilder()
-        stringBuilder.append("[ (").append(className).append(":").append(lineNumber).append(")#")
-            .append(methodName).append(" ] ")
+        stringBuilder.append("[ (").append(className).append(":").append(lineNumber).append(")#").append(methodName).append(" ] ")
         val msg = objectMsg?.toString() ?: "Log with null Object"
         stringBuilder.append(msg)
         val logStr = stringBuilder.toString()
@@ -210,12 +197,10 @@ object LogUtil {
             W -> Log.w(tag, logStr)
             E -> Log.e(tag, logStr)
             A -> Log.wtf(tag, logStr)
-        }
-        // 是否保存到本地缓存目录
+        } // 是否保存到本地缓存目录
         if (!this::mHandler.isInitialized && GlobalConfig.gIsSaveLog) {
             initLogHandler()
-        }
-        // 已初始化，则可以发送消息了
+        } // 已初始化，则可以发送消息了
         if (this::mHandler.isInitialized) {
             val m = Message.obtain()
             m.obj = "$tag = $logStr"

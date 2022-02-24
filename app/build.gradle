@@ -6,8 +6,6 @@ plugins {
     id 'com.alibaba.arouter'
 }
 
-
-
 android {
     compileSdk 30
 

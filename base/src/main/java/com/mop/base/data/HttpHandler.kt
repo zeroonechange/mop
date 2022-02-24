@@ -32,24 +32,19 @@ object HttpHandler {
         onFailed: ((code: Int, msg: String?) -> Unit)? = null,
         onNoLogin: (() -> Unit)? = null,
         onNoData: (() -> Unit)? = null,
-    ) {
-        // 防止实体为 null
+    ) { // 防止实体为 null
         if (entity == null) {
             onFailed?.invoke(entityNullable, msgEntityNullable)
             return
         }
         val code = entity.code()
-        val msg = entity.msg()
-        // 防止状态码为 null
+        val msg = entity.msg() // 防止状态码为 null
         if (code == null) {
             onFailed?.invoke(entityCodeNullable, msgEntityCodeNullable)
             return
-        }
-        // 请求成功
-        if (entity.isSuccess()) {
-            // 回调成功
-            onSuccess?.invoke()
-            // 实体不为 null 才有价值
+        } // 请求成功
+        if (entity.isSuccess()) { // 回调成功
+            onSuccess?.invoke() // 实体不为 null 才有价值
             entity.data()?.let { onResult.invoke(it) }
             if (entity.data() == null) {
                 onNoData?.invoke()
@@ -58,8 +53,7 @@ object HttpHandler {
             LoginServiceUtil.getService().logout()
             onFailed?.invoke(code, msg)
             onNoLogin?.invoke()
-        } else {
-            // 失败了
+        } else { // 失败了
             onFailed?.invoke(code, msg)
         }
     }
@@ -68,16 +62,14 @@ object HttpHandler {
      * 处理异常
      */
     fun handleException(
-        e: Exception,
-        onFailed: (code: Int, msg: String?) -> Unit
+        e: Exception, onFailed: (code: Int, msg: String?) -> Unit
     ) {
         if (LogUtil.isLog()) {
             e.printStackTrace()
         }
         return if (e is HttpException) {
             onFailed(
-                notHttpException,
-                "$msgNotHttpException"
+                notHttpException, "$msgNotHttpException"
             )
         } else {
             val log = LogUtil.getStackTraceString(e)
@@ -86,8 +78,7 @@ object HttpHandler {
             }
 
             onFailed(
-                notHttpException,
-                "$msgNotHttpException"
+                notHttpException, "$msgNotHttpException"
             )
         }
     }
@@ -102,7 +93,7 @@ object HttpHandler {
         if (LogUtil.isLog()) {
             e.printStackTrace()
         }
-        var result = ResultResponse("", entityNullable, "",false, DataStatus.ERROR)
+        var result = ResultResponse("", entityNullable, "", false, DataStatus.ERROR)
 
         if (e is UnknownHostException) {
             if (!NetworkUtil.isConnected()) {

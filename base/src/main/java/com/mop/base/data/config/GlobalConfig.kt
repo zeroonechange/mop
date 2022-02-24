@@ -2,6 +2,7 @@ package com.mop.base.data.config
 
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.mop.base.R
 
 /**
  * 全局配置
@@ -53,6 +54,41 @@ object GlobalConfig {
          * 点击事件时间间隔
          */
         var gClickIntervalMilliseconds = 800
+    }
+
+    object LoadingDialog {
+        /**
+         * 加载中对话框是否可点击返回键隐藏对话框
+         */
+        var gLoadingDialogCancelable = false
+
+        /**
+         * 加载中对话框是否可点击对话框内容外的区域隐藏对话框
+         */
+        var gLoadingDialogCanceledOnTouchOutside = false
+
+        /**
+         * 是否在取消对话框的同时，取消耗时任务，只有在上述两个变量 [gLoadingDialogCancelable]，[gLoadingDialogCanceledOnTouchOutside]
+         * 有一个设置为 true 的情况下才有效
+         */
+        var gIsCancelConsumingTaskWhenLoadingDialogCanceled = gLoadingDialogCancelable || gLoadingDialogCanceledOnTouchOutside
+
+        /**
+         * 页面在显示数据时需要时间，因此显示加载中对话框，如果不需要，可以设置为 false，以免创建不必要的对象
+         */
+        var gIsNeedLoadingDialog = true
+
+        /**
+         * 加载中对话框的 layout
+         */
+        @LayoutRes
+        var gLoadingDialogLayout = R.layout.mvvm_dlg_loading
+
+        /**
+         * 加载中对话框的 layout 消息id
+         */
+        @IdRes
+        var gLoadingDialogLayoutMsgId = R.id.tv_msg
     }
 
     object AppBar {

@@ -11,6 +11,8 @@ git remote add origin git@github.com:zeroonechange/mop.git
 
 git add .
 
+git commit -m "notes here..."
+
 git push -u origin main
 
 

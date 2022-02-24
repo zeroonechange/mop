@@ -13,9 +13,13 @@ interface ApiService {
     @GET("banner/json")
     suspend fun getBanner(): BaseResponse<ArrayList<Any>>
 
-    /**
-     * 完成一个TODO
-     */
+    // https://wanandroid.com/banner/json
+
+    // https://wanandroid.com/article/top/json
+
+    // https://wanandroid.com/article/list/1/json
+
+
     @POST("/lg/todo/done/{id}/json")
     @FormUrlEncoded
     suspend fun doneTodo(@Path("id") id: Int, @Field("status") status: Int): BaseResponse<Any?>

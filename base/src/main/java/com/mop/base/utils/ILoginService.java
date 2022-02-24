@@ -7,11 +7,16 @@ public interface ILoginService extends IProvider {
 
     String getUserId();
 
-    void logout( );
-    void refreshToken(String  token);
-    void setName(String  token);
-    void setPic(String  token);
-    void setLv(String  lvstr);
+    void logout();
+
+    void refreshToken(String token);
+
+    void setName(String token);
+
+    void setPic(String token);
+
+    void setLv(String lvstr);
+
     void clearLoginData();
 
     String getToken();
@@ -23,12 +28,15 @@ public interface ILoginService extends IProvider {
     String getTokenId();
 
     String getBeanId();
+
     String getLvStr();
 
     String getNickName();
 
     String getSex();
+
     String getAccessId();
+
     String getUserpicture();
 
     String getAvatar();

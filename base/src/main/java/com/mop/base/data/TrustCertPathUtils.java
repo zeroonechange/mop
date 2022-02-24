@@ -3,7 +3,6 @@ package com.mop.base.data;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 
-
 import com.mop.base.utils.LogUtil;
 
 import java.lang.reflect.Field;
@@ -32,7 +31,7 @@ public class TrustCertPathUtils {
     }
 
     public static boolean isApkInDebug() {
-        if (application==null){
+        if (application == null) {
             LogUtil.e("请先初始化Application!!!");
             return false;
         }

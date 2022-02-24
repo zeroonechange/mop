@@ -1,19 +1,22 @@
 package com.mop.app
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Observer
+import com.mop.app.data.MainViewModel
+import com.mop.app.databinding.ActivityMainBinding
+import com.mop.base.ui.DataBindingBaseActivity
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : DataBindingBaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main, BR.viewModel) {
+    private val TAG: String = "MainActivity"
 
-        // https://wanandroid.com/banner/json
+    override fun initViewModel() {
+        super.initViewModel()
+        mViewModel.onCreate(this)
 
-        // https://wanandroid.com/article/top/json
-
-        // https://wanandroid.com/article/list/1/json
-
-
+        mViewModel.data.observe(this, Observer {
+            Log.e(TAG, "initViewModel: ")
+        })
+        mViewModel.loadData()
     }
+
 }

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-
 import com.mop.base.utils.LogUtil;
 
 import java.io.IOException;
@@ -66,7 +65,7 @@ public class LoggingInterceptor implements Interceptor {
         ResponseBody responseBody = response.body();
         MediaType contentType = null;
         if (responseBody != null) {
-           contentType = responseBody.contentType();
+            contentType = responseBody.contentType();
         }
 
         String subtype = null;

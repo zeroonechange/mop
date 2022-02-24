@@ -8,6 +8,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_main.xml" value="0.2441123188405797" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/bg_tag.xml" value="0.39692307692307693" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/mvvm_loading_dlg_bg.xml" value="0.1703125" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/mvvm_swipe_back_shadow_bg.xml" value="0.21822916666666667" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/stroke_f3e_1_radius_16.xml" value="0.21822916666666667" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/activity_loadsir.xml" value="0.20208333333333334" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/activity_main.xml" value="0.2740036231884058" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/load_sir_callback_empty.xml" value="0.20208333333333334" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/load_sir_callback_error.xml" value="0.20208333333333334" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/load_sir_callback_loading.xml" value="0.20208333333333334" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/load_sir_callback_net_error.xml" value="0.20208333333333334" />
+        <entry key="..\:/android/GWSpace/mop/base/src/main/res/layout/mvvm_dlg_loading.xml" value="0.2740036231884058" />
       </map>
     </option>
   </component>

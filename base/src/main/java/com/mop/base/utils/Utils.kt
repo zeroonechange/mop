@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.collection.ArrayMap
 import androidx.core.content.ContextCompat
+import com.mop.base.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
@@ -43,8 +44,7 @@ object Utils {
     fun measureView(view: View): IntArray {
         val arr = IntArray(2)
         val spec = View.MeasureSpec.makeMeasureSpec(
-            View.MeasureSpec.UNSPECIFIED,
-            View.MeasureSpec.UNSPECIFIED
+            View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED
         )
         view.measure(spec, spec)
         arr[0] = view.measuredWidth
@@ -74,20 +74,13 @@ object Utils {
      * 创建 Intent 实例，并把参数 [map] [bundle] 放进去
      */
     fun getIntentByMapOrBundle(
-        context: Context? = null,
-        clz: Class<out Activity>? = null,
-        map: ArrayMap<String, *>? = null,
-        bundle: Bundle? = null
+        context: Context? = null, clz: Class<out Activity>? = null, map: ArrayMap<String, *>? = null, bundle: Bundle? = null
     ): Intent {
-        val intent =
-            if (context != null && clz != null)
-                Intent(context, clz)
-            else
-                Intent()
+        val intent = if (context != null && clz != null) Intent(context, clz)
+        else Intent()
 
         map?.forEach { entry ->
-            @Suppress("UNCHECKED_CAST")
-            when (val value = entry.value) {
+            @Suppress("UNCHECKED_CAST") when (val value = entry.value) {
                 is Boolean -> {
                     intent.putExtra(entry.key, value)
                 }
@@ -201,12 +194,10 @@ object Utils {
         return intent
     }
 
-    fun releaseBinding(startClz: Class<*>?, targetClz: Class<*>?, obj: Any, filed: String) {
-        // 通过反射，解决内存泄露问题
+    fun releaseBinding(startClz: Class<*>?, targetClz: Class<*>?, obj: Any, filed: String) { // 通过反射，解决内存泄露问题
         GlobalScope.launch {
             var clz = startClz
-            while (clz != null) {
-                // 找到 mBinding 所在的类
+            while (clz != null) { // 找到 mBinding 所在的类
                 if (clz == targetClz) {
                     try {
                         val field = clz.getDeclaredField(filed)
@@ -226,12 +217,9 @@ object Utils {
     public fun convertViewToBitmap(view: View): Bitmap? {
         view.measure(
             View.MeasureSpec.makeMeasureSpec(
-                0,
-                View.MeasureSpec.UNSPECIFIED
-            ),
-            View.MeasureSpec.makeMeasureSpec(
-                0,
-                View.MeasureSpec.UNSPECIFIED
+                0, View.MeasureSpec.UNSPECIFIED
+            ), View.MeasureSpec.makeMeasureSpec(
+                0, View.MeasureSpec.UNSPECIFIED
             )
         )
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
@@ -250,15 +238,44 @@ object Utils {
      */
     var useStatusBarColor = true
 
+    /**
+     * 设置沉浸式状态栏
+     */
+    fun setStatusBar(activity: Activity): Unit {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val decorView = activity.getWindow().getDecorView();
+            val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option); //根据上面设置是否对状态栏单独设置颜色
+            if (useThemestatusBarColor) { //设置状态栏背景色
+                activity.getWindow().setStatusBarColor(
+                    ContextCompat.getColor(
+                        activity.application, R.color.color_status_bar_signe
+                    )
+                );
+            } else { //透明
+                activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { //4.4到5.0
+            val localLayoutParams = activity.getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or localLayoutParams.flags);
+        } else {
+            Toast.makeText(activity.application, "低于4.4的android系统版本不存在沉浸式状态栏", Toast.LENGTH_SHORT).show();
+        }
+
+        //android6.0以后可以对状态栏文字颜色和图标进行修改
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && useStatusBarColor) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        setAndroidNativeLightStatusBar(activity, false)
+    }
+
 
     private fun setAndroidNativeLightStatusBar(activity: Activity, dark: Boolean) {
         val decor = activity.window.decorView
         if (dark) {
-            decor.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         } else {
-            decor.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
 
@@ -268,8 +285,7 @@ object Utils {
     fun setStatusBarColor(activity: Activity, @ColorRes color: Int): Unit {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && useStatusBarColor) {
-            activity.getWindow()
-                .setStatusBarColor(ContextCompat.getColor(activity.application, color));
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity.application, color));
 
         }
     }
@@ -296,8 +312,7 @@ object Utils {
     @SuppressLint("NewApi")
     fun containsEmo(source: String): Boolean {
         var p = Pattern.compile(
-            "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
-            Pattern.UNICODE_CASE or Pattern.CASE_INSENSITIVE
+            "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]", Pattern.UNICODE_CASE or Pattern.CASE_INSENSITIVE
         ) as Pattern
         var m = p.matcher(source);
         return m.find();
@@ -311,10 +326,7 @@ object Utils {
         if (list.isEmpty()) {
             return ""
         }
-        return list.toString()
-            .replace(" ", "")
-            .replace("[", "")
-            .replace("]", "")
+        return list.toString().replace(" ", "").replace("[", "").replace("]", "")
     }
 
     fun expendTouchArea(view: View, expendSize: Int) {

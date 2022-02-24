@@ -30,7 +30,7 @@ open class BaseApp : Application() {
         fun initApp(app: Application) {
             Companion.app = app
 
-//            TCA.initSDK(app)
+            //            TCA.initSDK(app)
             //扑捉崩溃异常（开发模式方便定位报错点 。后续上线需要打开）
             // LogUtil.init()
         }
