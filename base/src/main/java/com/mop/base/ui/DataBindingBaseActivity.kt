@@ -22,7 +22,6 @@ abstract class DataBindingBaseActivity<V : ViewDataBinding, VM : BaseViewModel<o
         if (varViewModelId != null) {
             mBinding.setVariable(varViewModelId, mViewModel)
         }
-
         // 让 LiveData 和 xml 可以双向绑定
         mBinding.lifecycleOwner = this
     }

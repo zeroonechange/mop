@@ -2,6 +2,8 @@ package com.mop.base.data.config
 
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.kingja.loadsir.callback.Callback
+import com.kingja.loadsir.core.LoadSir
 import com.mop.base.R
 
 /**
@@ -31,9 +33,25 @@ object GlobalConfig {
     var gIsNeedActivityManager = true
 
     /**
-     * 是否需要动态修改 BaseURL，如果需要，请设置为 true，并在合适的位置调用：[com.gwm.libbase.http.HttpRequest.multiClickToChangeBaseUrl]
+     * 是否需要动态修改 BaseURL，如果需要，请设置为 true，并在合适的位置调用
      */
     var gIsNeedChangeBaseUrl = false
+
+
+    /**
+     * 初始化 LoadSir 的相关界面。
+     * [defCallback] 默认的界面，通常是加载中页面，设置了后，默认打开开启了 LoadSir 的页面后就显示这里设置的页面。
+     * [clazz] 其他的状态页，比如空页面，加载错误等。
+     */
+    fun initLoadSir(defCallback: Class<out Callback>, vararg clazz: Class<out Callback>) {
+        val builder = LoadSir.beginBuilder()
+        clazz.forEach {
+            builder.addCallback(it.newInstance())
+        }
+        builder.addCallback(defCallback.newInstance())
+        //设置默认状态页
+        builder.commit()
+    }
 
 
     object Click {

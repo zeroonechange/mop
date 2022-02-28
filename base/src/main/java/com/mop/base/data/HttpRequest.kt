@@ -186,9 +186,9 @@ object HttpRequest {
     }
 
     private fun addCommonHeader(token: String?) {
-        addDefaultHeader(
-            "Authorization", if (token.isNullOrEmpty()) LoginServiceUtil.getService().token else token
-        )
+        token?.also {
+            addDefaultHeader("Authorization", token)
+        }
         addDefaultHeader("Content-Type", "application/json")
         addDefaultHeader("SourceType", "ANDROID")
         addDefaultHeader("SourceAppVer", AppUtil.versionName)

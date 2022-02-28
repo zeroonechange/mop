@@ -1,5 +1,6 @@
 package com.mop.base.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -75,13 +76,14 @@ interface IView<V : ViewBinding, VM : BaseViewModel<out BaseModel>> {
         modelClass = if (type is ParameterizedType) {
             type.actualTypeArguments[1] as? Class<VM>
         } else null
-        if (modelClass == null) {
+        if (modelClass == null) {  //如果没有指定泛型参数，则默认使用BaseViewModel
             modelClass = BaseViewModel::class.java as Class<VM>
-        } //如果没有指定泛型参数，则默认使用BaseViewModel
-        BaseViewModel::class.java
-        val vm = ViewModelProvider(
-            viewModelStoreOwner, ViewModelProvider.AndroidViewModelFactory(BaseApp.getInstance())
-        ).get(modelClass) // 让 vm 也可以直接获取到 bundle
+        }
+        val app = BaseApp.getInstance()
+        val cls = modelClass
+        val ow = viewModelStoreOwner
+        Log.e("TAG", "initViewModel: ", )
+        val vm = ViewModelProvider(viewModelStoreOwner, ViewModelProvider.AndroidViewModelFactory(BaseApp.getInstance())).get(modelClass)
         return vm
     }
 }

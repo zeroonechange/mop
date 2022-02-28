@@ -16,7 +16,7 @@ import java.util.*
 
 
 /**
- * Created by 杨永青 on 16/9/13.
+ *
  * 可以通过AS的 File | Settings | Editor | General | Auto Import - Exclude from import and completion来禁用掉系统的Log类
  * 再通过 File | Settings | Editor | Live Templates，来设置快捷生成代码，可方便的访问此类
  */

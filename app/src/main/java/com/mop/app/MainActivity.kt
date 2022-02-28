@@ -1,6 +1,7 @@
 package com.mop.app
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import com.mop.app.data.MainViewModel
 import com.mop.app.databinding.ActivityMainBinding
@@ -11,12 +12,17 @@ class MainActivity : DataBindingBaseActivity<ActivityMainBinding, MainViewModel>
 
     override fun initViewModel() {
         super.initViewModel()
-        mViewModel.onCreate(this)
-
         mViewModel.data.observe(this, Observer {
             Log.e(TAG, "initViewModel: ")
+        })
+
+        mViewModel.str.observe(this, Observer {
+            Log.e(TAG, "initViewModel: $it")
         })
         mViewModel.loadData()
     }
 
+    override fun widgetClick(view: View?) {
+        mViewModel.loadData()
+    }
 }
