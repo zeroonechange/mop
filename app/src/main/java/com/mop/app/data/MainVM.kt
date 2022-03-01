@@ -6,7 +6,7 @@ import com.mop.base.data.MyRepository
 import com.mop.base.mvvm.BaseViewModel
 import kotlinx.coroutines.flow.collect
 
-class MainViewModel(app: Application) : BaseViewModel<MyRepository>(app) {
+class MainVM(app: Application) : BaseViewModel<MyRepository>(app) {
 
     var app: Application = app
 

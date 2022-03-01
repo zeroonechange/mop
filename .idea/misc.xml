@@ -7,7 +7,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android/GWSpace/mop/app/src/main/res/drawable/splash_btn_bg.xml" value="0.3333333333333333" />
         <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_main.xml" value="0.2441123188405797" />
+        <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_splash.xml" value="0.33" />
         <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/bg_tag.xml" value="0.39692307692307693" />
         <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/mvvm_loading_dlg_bg.xml" value="0.1703125" />
         <entry key="..\:/android/GWSpace/mop/base/src/main/res/drawable/mvvm_swipe_back_shadow_bg.xml" value="0.21822916666666667" />
