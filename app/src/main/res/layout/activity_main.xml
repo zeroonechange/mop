@@ -1,36 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.mop.app.data.MainVM" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".MainActivity">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="
+先搭好架子-搬来成熟案例\n
+研究底层-改造自适应-进阶成体系\n
+优化结构流程-打造最新"
+            android:layout_marginTop="20dp"
+            android:textSize="23sp"
+            android:textColor="@color/purple_500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
-            android:onClick="widgetClick"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="click me"/>
+            android:text="basic-基础工作"
+            tools:text="MVVM ARouter 注解 反射 ASM " />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UI-页面化妆"
+            tools:text="抽屉效果  底部导航  弹窗  多布局列表  动画效果 " />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DATA-数据操控"
+            tools:text="本地持久化 网络请求 数据库 文件系统 对象文件 " />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TOOL-工具集合"
+            tools:text="图片选择-裁剪  文件选择 " />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ndk &amp; C++-底层开发"
+            tools:text="cmake so库  jni语法 " />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="openCV-机器视觉"
+            tools:text="人脸识别  物体识别  手指  坐姿  动作检测" />
+
+    </LinearLayout>
 
 </layout>

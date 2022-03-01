@@ -1,34 +1,16 @@
 rootProject.name = "mop"
 include ':app'
+
 include ':base'
 
-/*
-rootProject.name = "awesome_turing_sdk"
-include ':app'
+/* +++++++++ 基础层 +++++++++ */
+include ':ui'
+include ':data'
+include ':tools'
 
-*//* +++++++++ 基础层 +++++++++ *//*
-include ':common'
-project(':common').projectDir = new File('base/common')
-
-
-*//* +++++++++ 能力层 +++++++++ *//*
-include ':license'
-include ':asr'
-
-project(':license').projectDir = new File('ability/license')
-project(':asr').projectDir = new File('ability/asr')
+project(':ui').projectDir = new File('core/ui')
+project(':data').projectDir = new File('core/data')
+project(':tools').projectDir = new File('core/tools')
 
 
-
-*//* +++++++++ SDK层 +++++++++ *//*
-include ':sdkStandard'
-
-project(':sdkStandard').projectDir = new File('sdk/sdkStandard')
-
-
-*//* +++++++++ 业务层 +++++++++ *//*
-include ':standard'
-
-project(':standard').projectDir = new File('business/standard')*/
-
-
+/* +++++++++ 进阶层 +++++++++ */

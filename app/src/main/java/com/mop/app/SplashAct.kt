@@ -10,6 +10,7 @@ import com.mop.app.data.SplashVM
 import com.mop.app.databinding.ActivitySplashBinding
 import com.mop.base.ui.DataBindingBaseActivity
 import com.mop.base.utils.Utils
+import com.mop.base.utils.statusbar.StatusBarUtils
 import kotlin.system.exitProcess
 
 class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.layout.activity_splash, BR.viewModel) {
@@ -17,6 +18,7 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Utils.setStatusBar(this)
+        StatusBarUtils.setLightStatusBar(this, true)
     }
 
     override fun initViewModel() {
@@ -42,9 +44,8 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
 
     }
 
-    private fun launchHomeScreen(){
-        var it = Intent(this@SplashAct, MainActivity::class.java)
-        // it.putExtra(RouterConstant.IS_FIRST_TIME_LANCH, false)
+    private fun launchHomeScreen() {
+        var it = Intent(this@SplashAct, MainActivity::class.java) // it.putExtra(RouterConstant.IS_FIRST_TIME_LANCH, false)
         startActivity(it)
         finish()
     }
@@ -55,9 +56,7 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
      * 倒计时
      */
     private inner class MyCountDownTimer(
-        millisInFuture: Long,
-        countDownInterval: Long,
-        internal var tv: TextView
+        millisInFuture: Long, countDownInterval: Long, internal var tv: TextView
     ) : CountDownTimer(millisInFuture, countDownInterval) {
         override fun onFinish() {
             launchHomeScreen()
