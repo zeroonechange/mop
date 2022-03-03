@@ -1,7 +1,7 @@
 package com.mop.app
 
 import com.alibaba.android.arouter.launcher.ARouter
-import com.mop.base.AppStateTracker
+import com.mop.base.utils.AppStateTracker
 import com.mop.base.app.BaseApp
 import com.mop.base.data.ApiService
 import com.mop.base.data.HttpRequest
@@ -27,11 +27,10 @@ class MyAPP : BaseApp() {
             NetErrorCallback::class.java,
         )
 
-        // 这两行必须写在init之前，否则这些配置在init过程中将无效
-        if (BuildConfig.DEBUG) { // 打印日志
-            ARouter.openLog(); // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-            ARouter.openDebug();
-        } // 尽可能早，推荐在Application中初始化
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog()
+            ARouter.openDebug()
+        }
         ARouter.init(this)
 
         // 是否支持点击事件间隔一定时间，可局部设置

@@ -1,16 +1,15 @@
 package com.mop.app
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.Observer
-import com.mop.app.data.MainVM
+import com.alibaba.android.arouter.launcher.ARouter
+import com.mop.app.data.SplashVM
 import com.mop.app.databinding.ActivityMainBinding
+import com.mop.base.data.config.RouterTable
 import com.mop.base.ui.DataBindingBaseActivity
-import com.mop.base.utils.Utils
 import com.mop.base.utils.statusbar.StatusBarUtils
 
-class MainActivity : DataBindingBaseActivity<ActivityMainBinding, MainVM>(R.layout.activity_main, BR.viewModel) {
+class MainActivity : DataBindingBaseActivity<ActivityMainBinding, SplashVM>(R.layout.activity_main, BR.viewModel) {
+
     private val TAG: String = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,19 +18,15 @@ class MainActivity : DataBindingBaseActivity<ActivityMainBinding, MainVM>(R.layo
         StatusBarUtils.setLightStatusBar(this, true)
     }
 
-    override fun initViewModel() {
-        super.initViewModel()
-        mViewModel.data.observe(this, Observer {
-            Log.e(TAG, "initViewModel: ")
-        })
+    override fun initListener() {
+        super.initListener()
 
-        mViewModel.str.observe(this, Observer {
-            Log.e(TAG, "initViewModel: $it")
-        })
-        mViewModel.loadData()
-    }
-
-    override fun widgetClick(view: View?) {
-        mViewModel.loadData()
+        mBinding.tvData.setOnClickListener {
+            ARouter.getInstance()
+                .build(RouterTable.DATA_MAIN_ACT)
+                .withString("NAME", "OMP")
+                .greenChannel()
+                .navigation()
+        }
     }
 }

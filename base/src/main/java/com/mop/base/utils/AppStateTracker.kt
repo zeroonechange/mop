@@ -1,4 +1,4 @@
-package com.mop.base
+package com.mop.base.utils
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner

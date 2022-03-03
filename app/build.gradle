@@ -1,18 +1,21 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
-    id 'com.alibaba.arouter'
+    id 'kotlin-android-extensions'
+}
+
+kapt {
+    arguments { arg("AROUTER_MODULE_NAME", project.getName()) }
 }
 
 android {
-    compileSdk 30
+    compileSdk rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
         applicationId "com.mop.app"
-        minSdk 21
-        targetSdk 30
+        minSdk rootProject.ext.android["minSdkVersion"]
+        targetSdk rootProject.ext.android["targetSdkVersion"]
         versionCode 1
         versionName "1.0"
 
@@ -42,4 +45,5 @@ android {
 
 dependencies {
     implementation project(path: ':base')
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 }

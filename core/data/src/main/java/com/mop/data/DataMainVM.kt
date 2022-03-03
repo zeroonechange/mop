@@ -1,4 +1,4 @@
-package com.mop.app.data
+package com.mop.data
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import com.mop.base.data.MyRepository
 import com.mop.base.mvvm.BaseViewModel
 import kotlinx.coroutines.flow.collect
 
-class MainVM(app: Application) : BaseViewModel<MyRepository>(app) {
+class DataMainVM(app: Application) : BaseViewModel<MyRepository>(app) {
 
     var app: Application = app
 

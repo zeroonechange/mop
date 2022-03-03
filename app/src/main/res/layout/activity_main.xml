@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.mop.app.data.MainVM" />
     </data>
 
     <LinearLayout
@@ -39,6 +36,7 @@
             tools:text="抽屉效果  底部导航  弹窗  多布局列表  动画效果 " />
 
         <Button
+            android:id="@+id/tvData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DATA-数据操控"
