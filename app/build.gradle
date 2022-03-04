@@ -3,10 +3,13 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
+    id 'com.alibaba.arouter'
 }
 
 kapt {
-    arguments { arg("AROUTER_MODULE_NAME", project.getName()) }
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
 }
 
 android {
@@ -38,12 +41,17 @@ android {
 
     buildFeatures {
         dataBinding = true
-        viewBinding = true
     }
 
 }
 
 dependencies {
     implementation project(path: ':base')
+
+    implementation 'com.alibaba:arouter-api:1.5.2'
     kapt 'com.alibaba:arouter-compiler:1.5.2'
+
+    if (!rootProject.ext.isData) {
+        implementation project(path: ':data')
+    }
 }

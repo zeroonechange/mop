@@ -5,6 +5,12 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 android {
     compileSdk rootProject.ext.android["compileSdkVersion"]
 
@@ -16,28 +22,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-            useBuildCache = true
-            javacOptions {
-                option("-Xmaxerrs", 500)
-            }
-        }
-
-    }
-
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
     }
 
     buildTypes {
@@ -52,6 +36,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 }
 
