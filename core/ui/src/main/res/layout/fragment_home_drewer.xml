@@ -15,11 +15,12 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/background"
-            android:scaleType="centerInside"
+            android:layout_height="match_parent"
+            android:background="@mipmap/aaa"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
