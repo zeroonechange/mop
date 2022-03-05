@@ -30,6 +30,7 @@
             tools:text="MVVM ARouter 注解 反射 ASM " />
 
         <Button
+            android:id="@+id/tvUI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="UI-页面化妆"

@@ -8,7 +8,8 @@ import com.mop.base.data.config.RouterTable
 import com.mop.base.ui.DataBindingBaseActivity
 import com.mop.base.utils.statusbar.StatusBarUtils
 
-class MainActivity : DataBindingBaseActivity<ActivityMainBinding, SplashVM>(R.layout.activity_main, BR.viewModel) {
+class MainActivity :
+    DataBindingBaseActivity<ActivityMainBinding, SplashVM>(R.layout.activity_main, BR.viewModel) {
 
     private val TAG: String = "MainActivity"
 
@@ -20,6 +21,13 @@ class MainActivity : DataBindingBaseActivity<ActivityMainBinding, SplashVM>(R.la
 
     override fun initListener() {
         super.initListener()
+
+        mBinding.tvUI.setOnClickListener {
+            ARouter.getInstance()
+                .build(RouterTable.UI_HOME_ACT)
+                .greenChannel()
+                .navigation()
+        }
 
         mBinding.tvData.setOnClickListener {
             ARouter.getInstance()

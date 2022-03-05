@@ -27,5 +27,9 @@ class RouterTable {
 
         const val DATA_MAIN_ACT = "/data/DataMainActivity"
 
+
+        const val UI_MAIN_ACT = "/ui/UINavAct"
+        const val UI_HOME_ACT = "/ui/HomeAct"
+
     }
 }
