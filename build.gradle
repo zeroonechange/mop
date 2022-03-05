@@ -2,30 +2,25 @@ apply from: "config.gradle"
 
 buildscript {
     repositories {
-        google()
-        mavenCentral()
-        //阿里云jcenter仓库
         maven{ url 'https://maven.aliyun.com/repository/jcenter' }
-        maven {
-            url 'https://jitpack.io'
-        }
+        maven {url 'https://jitpack.io'}
+        mavenCentral()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
         classpath "com.alibaba:arouter-register:1.0.2"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1"
     }
 }
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
-        //阿里云jcenter仓库
         maven{ url 'https://maven.aliyun.com/repository/jcenter' }
-        maven {
-            url 'https://jitpack.io'
-        }
+        maven {url 'https://jitpack.io'}
+        mavenCentral()
+        google()
     }
 }
 
