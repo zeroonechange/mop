@@ -1,8 +1,5 @@
 package com.mop.base.utils
 
-import com.mop.base.R
-import com.mop.base.app.BaseApp
-
 
 internal object CheckUtil {
 

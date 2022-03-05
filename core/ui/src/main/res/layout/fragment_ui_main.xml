@@ -1,15 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <variable
+            name="viewModel"
+            type="com.mop.ui.viewmodel.UIMainVM" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_gray_999"
-        tools:context=".utils.UIMainFragment">
+        tools:context=".fragment.UIMainFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:elevation="0dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:background="#272F3E"
+                android:gravity="center_vertical"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    onClickCommand="@{viewModel.searchMe}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_home_find_top_search"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.angcyo.tablayout.DslTabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tab_default_index="0"
+                    app:tab_draw_indicator="true"
+                    app:tab_indicator_drawable="@drawable/bg_find_indicator_all_radius"
+                    app:tab_indicator_style="STYLE_BOTTOM"
+                    app:tab_indicator_width="20dp"
+                    app:tab_indicator_y_offset="8dp"
+                    app:tab_orientation="HORIZONTAL">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="28dp"
+                        android:gravity="center"
+                        android:text="法治"
+                        android:textSize="16sp" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="28dp"
+                        android:gravity="center"
+                        android:text="爱国"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="友善"
+                        android:textSize="16sp" />
+
+                </com.angcyo.tablayout.DslTabLayout>
+
+                <ImageView
+                    onClickCommand="@{viewModel.checkMsg}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:src="@drawable/community_message_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
