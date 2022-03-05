@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/drawable/bg_find_indicator_all_radius.xml" value="0.2564814814814815" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/activity_home.xml" value="0.16347124117053483" />
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/float_dialog.xml" value="0.3375" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_home_drewer.xml" value="0.3197463768115942" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_ui_main.xml" value="0.3197463768115942" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_ui_my.xml" value="0.3197463768115942" />
-        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/menu/menu_navigation.xml" value="0.5300970873786408" />
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_ui_son_1.xml" value="0.25679347826086957" />
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_ui_son_2.xml" value="0.25679347826086957" />
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/layout/fragment_ui_son_3.xml" value="0.25679347826086957" />
+        <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/ui/src/main/res/menu/menu_navigation.xml" value="0.1" />
       </map>
     </option>
   </component>

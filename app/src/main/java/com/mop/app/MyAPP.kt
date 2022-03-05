@@ -1,12 +1,12 @@
 package com.mop.app
 
 import com.alibaba.android.arouter.launcher.ARouter
-import com.mop.base.utils.AppStateTracker
 import com.mop.base.app.BaseApp
 import com.mop.base.data.ApiService
 import com.mop.base.data.HttpRequest
 import com.mop.base.data.TrustCertPathUtils
 import com.mop.base.data.config.GlobalConfig
+import com.mop.base.utils.AppStateTracker
 import com.mop.base.utils.LogUtil
 import com.mop.base.utils.loadsir.callback.EmptyCallback
 import com.mop.base.utils.loadsir.callback.ErrorCallback

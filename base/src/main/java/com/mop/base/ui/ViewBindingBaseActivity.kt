@@ -10,12 +10,12 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
-import com.mop.base.utils.loadsir.callback.ErrorCallback
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.mop.base.R
 import com.mop.base.mvvm.BaseModel
 import com.mop.base.mvvm.BaseViewModel
+import com.mop.base.utils.loadsir.callback.ErrorCallback
 import com.mop.base.widget.CustomLayoutDialog
 
 /**

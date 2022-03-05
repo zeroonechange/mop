@@ -1,4 +1,4 @@
-package com.mop.ui.utils
+package com.mop.ui.fragment
 
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
