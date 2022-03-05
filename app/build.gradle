@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
-    id 'com.alibaba.arouter'
 }
 
 kapt {
@@ -48,7 +47,6 @@ android {
 dependencies {
     implementation project(path: ':base')
 
-    implementation 'com.alibaba:arouter-api:1.5.2'
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     if (!rootProject.ext.isData) {

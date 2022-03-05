@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UINavAct"
+    tools:openDrawer="left">
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
+
+        <FrameLayout
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true" />
+
+
+        <FrameLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#272F3E"
+                app:elevation="0dp"
+                app:itemBackground="@null"
+                app:itemRippleColor="@null"
+                app:itemTextAppearanceActive="@style/bottom_selected_text"
+                app:itemTextAppearanceInactive="@style/bottom_normal_text"
+                app:itemTextColor="@color/color_state_menu_nav"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/bottom_nav_menu" />
+
+            <ImageView
+                android:id="@+id/btn"
+                android:layout_width="47dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/icon_publish" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fl_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:clickable="true" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
