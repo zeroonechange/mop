@@ -39,7 +39,7 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
         val imageUrl = "https://zeroonechange.github.io/img/bbb.jpg"
         Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(mBinding.iv);
 
-        cdt = MyCountDownTimer(5000, 1000, mBinding.tv)
+        cdt = MyCountDownTimer(2000, 1000, mBinding.tv)
         cdt?.start()
 
     }

@@ -1,9 +1,8 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
 
 kapt {
     arguments {
@@ -51,5 +50,9 @@ dependencies {
 
     if (!rootProject.ext.isData) {
         implementation project(path: ':data')
+    }
+
+    if (!rootProject.ext.isUI) {
+        implementation project(path: ':ui')
     }
 }

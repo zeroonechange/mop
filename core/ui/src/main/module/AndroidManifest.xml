@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mop.ui">
 
-    <application >
+    <application>
         <activity
-            android:name=".UINavAct" android:exported="true">
-        </activity>
+            android:name=".UINavAct"
+            android:exported="true" />
+        <activity
+            android:name=".HomeAct"
+            android:exported="true" />
     </application>
 
 </manifest>
