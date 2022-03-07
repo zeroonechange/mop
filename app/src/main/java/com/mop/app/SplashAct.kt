@@ -1,32 +1,21 @@
 package com.mop.app
 
 import android.content.Intent
-import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.mop.app.data.SplashVM
 import com.mop.app.databinding.ActivitySplashBinding
-import com.mop.base.ui.DataBindingBaseActivity
+import com.mop.base.ui.BaseAct
 import com.mop.base.utils.Utils
 import com.mop.base.utils.statusbar.StatusBarUtils
 import kotlin.system.exitProcess
 
-class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.layout.activity_splash, BR.viewModel) {
+class SplashAct : BaseAct<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initView() {
         Utils.setStatusBar(this)
         StatusBarUtils.setLightStatusBar(this, true)
-    }
-
-    override fun initViewModel() {
-        super.initViewModel()
-    }
-
-    override fun initListener() {
-        super.initListener()
 
         mBinding.iv.setOnClickListener {
 
@@ -35,17 +24,22 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
         mBinding.tv.setOnClickListener {
             launchHomeScreen()
         }
+    }
 
+    override fun initData() {
         val imageUrl = "https://zeroonechange.github.io/img/3.jpg"
         Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(mBinding.iv);
 
         cdt = MyCountDownTimer(2000, 1000, mBinding.tv)
         cdt?.start()
-
     }
 
+
     private fun launchHomeScreen() {
-        var it = Intent(this@SplashAct, MainActivity::class.java) // it.putExtra(RouterConstant.IS_FIRST_TIME_LANCH, false)
+        var it = Intent(
+            this@SplashAct,
+            MainActivity::class.java
+        ) // it.putExtra(RouterConstant.IS_FIRST_TIME_LANCH, false)
         startActivity(it)
         finish()
     }
@@ -74,5 +68,4 @@ class SplashAct : DataBindingBaseActivity<ActivitySplashBinding, SplashVM>(R.lay
         this.finish()
         exitProcess(0)
     }
-
 }

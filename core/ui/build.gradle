@@ -43,10 +43,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     sourceSets {
         main {
             if (rootProject.ext.isUI) {
@@ -61,16 +57,39 @@ android {
 
 dependencies {
     implementation project(path: ':base')
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     def nav_version = "2.4.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'com.airbnb.android:lottie:5.0.2'
-    implementation 'com.github.princekin-f:EasyFloat:2.0.4'
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.2.1'
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.2.1'
+    implementation 'com.google.android.material:material:1.6.0'
+
+    /*
+     重大改版  还缺底层基础类库   新东西 需要跟着改
+    implementation 'com.airbnb.android:lottie:4.2.2'
+    implementation "com.google.android:flexbox:1.1.0"//伸缩布局
+    implementation 'com.airbnb.android:lottie:4.2.2' // android动画
+    implementation 'com.qcloud.cos:cos-android-lite:5.7.+'
+    implementation "de.hdodenhof:circleimageview:3.1.0"
+    implementation "com.blankj:utilcode:1.25.9"
+    implementation 'com.github.promeg:tinypinyin:2.0.1' // ~80KB
+
+    banner
+    dialog
+
+    https://github.com/scwang90/SmartRefreshLayout  刷新框架不用原生的了
+    recycleview    footer_classics  header_classics
+
+    net  netlist
+    paint
+    picker  player   video
+    share
+
+    BaseAct -> BaseVMAct  默认  一个基础的  简单功能的  一个用VM 和 Databinding
+    列表 还可以继续封装  给自己使用
+
+    趁底层还能改动  大刀阔斧的修改
+    
+    * */
 }
