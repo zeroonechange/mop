@@ -60,6 +60,6 @@ android {
 }
 
 dependencies {
-//    implementation project(path: ':base')
+    implementation project(path: ':base')
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 }

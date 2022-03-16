@@ -1,0 +1,17 @@
+package com.mop.base.base
+
+import android.app.Application
+
+class BaseApp : Application() {
+
+    companion object {
+        @JvmStatic
+        var instance: BaseApp? = null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
+
+}
