@@ -2,7 +2,7 @@ package com.mop.base.base
 
 import android.app.Application
 
-class BaseApp : Application() {
+open class BaseApp : Application() {
 
     companion object {
         @JvmStatic

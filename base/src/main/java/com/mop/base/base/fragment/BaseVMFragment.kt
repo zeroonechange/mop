@@ -1,34 +1,49 @@
-package com.mop.base.base.act
+package com.mop.base.base.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.mop.base.base.BaseApp
 import com.mop.base.base.viewmodel.BaseViewModel
-import com.mop.base.ext.notNull
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-abstract class BaseVMAct<VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseVMFragment<VM: BaseViewModel>: Fragment() {
 
-    companion object{
-        val TAG = javaClass.simpleName.toString()
-    }
     abstract fun layoutID(): Int
     lateinit var viewModel: VM
+    lateinit var mActivity: AppCompatActivity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initDataBind().notNull({
-            setContentView(it)
-        }, {
-            setContentView(layoutID())
-        })
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(layoutID(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = createViewModel(this)
         initView(savedInstanceState)
         initData()
+    }
+
+    abstract fun initData()
+
+    abstract fun initView(savedInstanceState: Bundle?)
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mActivity = context as AppCompatActivity
     }
 
     private fun createViewModel(viewModelStoreOwner: ViewModelStoreOwner): VM {
@@ -44,13 +59,5 @@ abstract class BaseVMAct<VM : BaseViewModel> : AppCompatActivity() {
             viewModelStoreOwner,
             ViewModelProvider.AndroidViewModelFactory(BaseApp.instance!!)
         ).get(modelClass)
-    }
-
-    abstract fun initData()
-
-    abstract fun initView(savedInstanceState: Bundle?)
-
-    open fun initDataBind(): View? {
-        return null
     }
 }

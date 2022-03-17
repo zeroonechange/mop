@@ -1,9 +1,8 @@
 package com.mop.app.data
 
-import android.app.Application
-import com.mop.base.data.MyRepository
-import com.mop.base.mvvm.BaseViewModel
+import com.mop.base.base.viewmodel.BaseViewModel
 
-class SplashVM(app: Application) : BaseViewModel<MyRepository>(app) {
+
+class SplashVM() : BaseViewModel() {
 
 }

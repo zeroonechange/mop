@@ -1,36 +1,36 @@
 package com.mop.app
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.mop.app.data.SplashVM
 import com.mop.app.databinding.ActivitySplashBinding
-import com.mop.base.ui.BaseAct
-import com.mop.base.utils.Utils
-import com.mop.base.utils.statusbar.StatusBarUtils
+import com.mop.base.base.act.BaseVBAct
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlin.system.exitProcess
 
-class SplashAct : BaseAct<ActivitySplashBinding>(R.layout.activity_splash) {
+class SplashAct : BaseVBAct<ActivitySplashBinding, SplashVM>() {
 
-    override fun initView() {
-        Utils.setStatusBar(this)
-        StatusBarUtils.setLightStatusBar(this, true)
-
-        mBinding.iv.setOnClickListener {
+    override fun initView(savedInstanceState: Bundle?) {
+//        Utils.setStatusBar(this)
+//        StatusBarUtils.setLightStatusBar(this, true)
+        iv.setOnClickListener {
 
         }
 
-        mBinding.tv.setOnClickListener {
+        tv.setOnClickListener {
             launchHomeScreen()
         }
     }
 
     override fun initData() {
         val imageUrl = "https://zeroonechange.github.io/img/3.jpg"
-        Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(mBinding.iv);
+        Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
 
-        cdt = MyCountDownTimer(2000, 1000, mBinding.tv)
+        cdt = MyCountDownTimer(5000, 1000, tv)
         cdt?.start()
     }
 

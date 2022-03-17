@@ -19,7 +19,7 @@
 优化结构流程-打造最新"
             android:layout_marginTop="20dp"
             android:textSize="23sp"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/accent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
