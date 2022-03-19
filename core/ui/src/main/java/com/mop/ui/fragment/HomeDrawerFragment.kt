@@ -1,32 +1,30 @@
 package com.mop.ui.fragment
 
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
-import com.mop.base.mvvm.EmptyVM
-import com.mop.base.ui.DataBindingBaseFragment
-import com.mop.base.utils.bus.LiveDataBus
-import com.mop.ui.BR
+import com.mop.base.base.fragment.BaseVBFragment
+import com.mop.base.util.bus.LiveDataBus
 import com.mop.ui.R
 import com.mop.ui.databinding.FragmentHomeDrewerBinding
+import com.mop.ui.viewmodel.EmptyVM
+import kotlinx.android.synthetic.main.fragment_home_drewer.*
 
 
-class HomeDrawerFragment : DataBindingBaseFragment<FragmentHomeDrewerBinding, EmptyVM>(
-    R.layout.fragment_home_drewer,
-    BR.viewModel
-) {
-    override fun initViewModel() {
-        super.initViewModel()
+class HomeDrawerFragment : BaseVBFragment<FragmentHomeDrewerBinding, EmptyVM>() {
+
+    override fun initView(savedInstanceState: Bundle?) {
         onclick()
         LiveDataBus.observe(this, "XXX", Observer { result ->
 
         })
     }
 
+
     override fun initData() {
-        super.initData()
         setUserInfo()
     }
 
@@ -36,19 +34,19 @@ class HomeDrawerFragment : DataBindingBaseFragment<FragmentHomeDrewerBinding, Em
                 .apply(
                     RequestOptions().placeholder(R.drawable.find_default_header)
                         .error(R.drawable.find_default_header).transform(CircleCrop())
-                ).into(mBinding.drewerHeader)
+                ).into(drewerHeader)
         }
-        mBinding.tvName.text = "灭霸"
+        tvName.text = "灭霸"
     }
 
     fun onclick() {
         //推出抽屉
-        mBinding.drewerClose.setOnClickListener {
+        drewerClose.setOnClickListener {
             LiveDataBus.send("openDrawer", 1)
         }
 
         //跳转设置页面
-        mBinding.settingRlt.setOnClickListener {
+        lay6.setOnClickListener {
             ARouter.getInstance()
                 .build("/ui/SettingActivity")
                 .greenChannel()

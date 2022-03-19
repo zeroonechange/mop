@@ -53,6 +53,6 @@ dependencies {
     }
 
     if (!rootProject.ext.isUI) {
-//        implementation project(path: ':ui')
+        implementation project(path: ':ui')
     }
 }

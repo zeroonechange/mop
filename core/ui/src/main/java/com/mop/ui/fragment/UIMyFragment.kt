@@ -1,15 +1,18 @@
 package com.mop.ui.fragment
 
-import com.mop.base.mvvm.EmptyVM
-import com.mop.base.ui.DataBindingBaseFragment
-import com.mop.ui.BR
-import com.mop.ui.R
+import android.os.Bundle
+import com.mop.base.base.fragment.BaseVBFragment
 import com.mop.ui.databinding.FragmentUiMyBinding
+import com.mop.ui.viewmodel.EmptyVM
 
 
-class UIMyFragment : DataBindingBaseFragment<FragmentUiMyBinding, EmptyVM>(
-    R.layout.fragment_ui_my,
-    BR.viewModel
-) {
+class UIMyFragment : BaseVBFragment<FragmentUiMyBinding, EmptyVM>() {
 
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+        TODO("Not yet implemented")
+    }
 }

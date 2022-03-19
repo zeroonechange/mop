@@ -3,7 +3,7 @@ package com.mop.app
 import android.os.Bundle
 import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
-import com.mop.app.data.SplashVM
+import com.mop.app.viewmodel.SplashVM
 import com.mop.app.databinding.ActivityMainBinding
 import com.mop.base.base.act.BaseVBAct
 import com.mop.base.util.ArouterTable

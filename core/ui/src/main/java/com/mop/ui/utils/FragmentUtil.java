@@ -13,15 +13,12 @@ import com.mop.ui.fragment.HomeDrawerFragment;
 
 import java.util.List;
 
-/**
- * @author liuliqiang
- * @date 2021/9/28
- */
+
 public class FragmentUtil {
 
     public static void showFragment(FragmentManager fm, @IdRes int containerViewId,
-            @NonNull Class fragmentClass,
-            @Nullable Bundle args) {
+                                    @NonNull Class fragmentClass,
+                                    @Nullable Bundle args) {
         Fragment fragment = fm.findFragmentByTag(fragmentClass.getName());
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(fm, ft, fragmentClass.getName());
@@ -38,9 +35,10 @@ public class FragmentUtil {
         }
         ft.commitNow();
     }
+
     public static void preLoad(FragmentManager fm, @IdRes int containerViewId,
-                                    @NonNull Class fragmentClass,
-                                    @Nullable Bundle args) {
+                               @NonNull Class fragmentClass,
+                               @Nullable Bundle args) {
         Fragment fragment = fm.findFragmentByTag(fragmentClass.getName());
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(fm, ft, fragmentClass.getName());

@@ -6,7 +6,7 @@ import android.os.CountDownTimer
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.mop.app.data.SplashVM
+import com.mop.app.viewmodel.SplashVM
 import com.mop.app.databinding.ActivitySplashBinding
 import com.mop.base.base.act.BaseVBAct
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -30,7 +30,7 @@ class SplashAct : BaseVBAct<ActivitySplashBinding, SplashVM>() {
         val imageUrl = "https://zeroonechange.github.io/img/3.jpg"
         Glide.with(this).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
 
-        cdt = MyCountDownTimer(5000, 1000, tv)
+        cdt = MyCountDownTimer(2000, 1000, tv)
         cdt?.start()
     }
 

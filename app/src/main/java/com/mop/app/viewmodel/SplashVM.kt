@@ -1,4 +1,4 @@
-package com.mop.app.data
+package com.mop.app.viewmodel
 
 import com.mop.base.base.viewmodel.BaseViewModel
 

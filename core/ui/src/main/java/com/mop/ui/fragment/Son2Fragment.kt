@@ -1,15 +1,17 @@
 package com.mop.ui.fragment
 
-import com.mop.base.mvvm.EmptyVM
-import com.mop.base.ui.DataBindingBaseFragment
-import com.mop.ui.BR
-import com.mop.ui.R
+import android.os.Bundle
+import com.mop.base.base.fragment.BaseVBFragment
 import com.mop.ui.databinding.FragmentUiSon2Binding
+import com.mop.ui.viewmodel.EmptyVM
 
 
-class Son2Fragment : DataBindingBaseFragment<FragmentUiSon2Binding, EmptyVM>(
-    R.layout.fragment_ui_son_2,
-    BR.viewModel
-) {
+class Son2Fragment : BaseVBFragment<FragmentUiSon2Binding, EmptyVM>() {
+    override fun initData() {
 
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+
+    }
 }

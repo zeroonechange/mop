@@ -4,11 +4,11 @@ include ':app'
 include ':base'
 
 /* +++++++++ 基础层 +++++++++ */
-//include ':ui'
+include ':ui'
 //include ':data'
 //include ':tools'
 
-//project(':ui').projectDir = new File('core/ui')
+project(':ui').projectDir = new File('core/ui')
 //project(':data').projectDir = new File('core/data')
 //project(':tools').projectDir = new File('core/tools')
 

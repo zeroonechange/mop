@@ -1,56 +1,59 @@
 package com.mop.ui.fragment
 
 import android.graphics.Color
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.google.android.material.appbar.AppBarLayout
-import com.mop.base.ui.DataBindingBaseFragment
-import com.mop.base.utils.DensityUtil
-import com.mop.ui.BR
-import com.mop.ui.R
+import com.mop.base.base.fragment.BaseVBFragment
+import com.mop.base.ext.dp2px
 import com.mop.ui.adapter.ExplorePagerAdapter
 import com.mop.ui.databinding.FragmentUiMainBinding
 import com.mop.ui.viewmodel.UIMainVM
+import kotlinx.android.synthetic.main.fragment_ui_main.*
 import java.util.*
 
 
-class UIMainFragment : DataBindingBaseFragment<FragmentUiMainBinding, UIMainVM>(
-    R.layout.fragment_ui_main,
-    BR.viewModel
-) , ViewPager.OnPageChangeListener{
+class UIMainFragment : BaseVBFragment<FragmentUiMainBinding, UIMainVM>(),
+    ViewPager.OnPageChangeListener {
 
     private var pagerAdapter: ExplorePagerAdapter? = null
     private val fragments: ArrayList<Fragment> = ArrayList()
     private var position = 0
 
-    override fun initData() {
-        super.initData()
+
+    override fun initView(savedInstanceState: Bundle?) {
 
         fragments.add(Son1Fragment())
         fragments.add(Son2Fragment())
         fragments.add(Son3Fragment())
 
         pagerAdapter = ExplorePagerAdapter(fragments, this.childFragmentManager)
-        mBinding.viewpager.adapter = pagerAdapter
-        mBinding.viewpager.addOnPageChangeListener(this)
+        viewpager.adapter = pagerAdapter
+        viewpager.addOnPageChangeListener(this)
 
-        mBinding.tablayout.setTabLayoutConfig {
+        tablayout.setTabLayoutConfig {
             tabSelectColor = Color.parseColor("#FFFFFF")
             tabDeselectColor = Color.parseColor("#AFB4BE")
             tabEnableTextBold = true
-            tabTextMaxSize = DensityUtil.dp2px(20f).toFloat()
-            tabTextMinSize = DensityUtil.dp2px(16f).toFloat()
+            tabTextMaxSize = dp2px(20f).toFloat()
+            tabTextMinSize = dp2px(16f).toFloat()
         }
         // 将viewpager 和 tablayout绑定起来 点击自动滑动
-        ViewPager1Delegate.install(mBinding.viewpager, mBinding.tablayout)
-        mBinding.tablayout.setCurrentItem(1)
+        ViewPager1Delegate.install(viewpager, tablayout)
+        tablayout.setCurrentItem(1)
+
         // 监听
-        mBinding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener{ appBarLayout, verticalOffset ->
-            if(verticalOffset == 0){
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (verticalOffset == 0) {
 
             }
         })
+    }
+
+    override fun initData() {
+
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

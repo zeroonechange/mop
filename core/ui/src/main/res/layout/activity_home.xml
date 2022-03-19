@@ -8,7 +8,7 @@
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".UINavAct"
@@ -35,7 +35,7 @@
                 android:layout_alignParentBottom="true">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/nav_view"
+                    android:id="@+id/navView"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:background="#272F3E"
@@ -54,7 +54,7 @@
 
 
         <FrameLayout
-            android:id="@+id/fl_drawer"
+            android:id="@+id/flDrawer"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
