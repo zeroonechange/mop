@@ -8,7 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.mop.base.base.viewmodel.BaseViewModel
 import com.mop.base.ext.inflateBindingWithGeneric
 
-abstract class BaseVBFragment<VB : ViewBinding, VM : BaseViewModel> : BaseVMFragment<VM>() {
+abstract class BaseVBFragment<VM : BaseViewModel, VB : ViewBinding> : BaseVMFragment<VM>() {
 
     override fun layoutID(): Int = 0
 

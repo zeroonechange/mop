@@ -14,7 +14,7 @@ import com.mop.ui.viewmodel.EmptyVM
 import kotlinx.android.synthetic.main.fragment_home_drewer.*
 
 
-class HomeDrawerFragment : BaseVBFragment<FragmentHomeDrewerBinding, EmptyVM>() {
+class HomeDrawerFragment : BaseVBFragment<EmptyVM, FragmentHomeDrewerBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         onclick()

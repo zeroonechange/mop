@@ -6,13 +6,13 @@ import android.os.CountDownTimer
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.mop.app.viewmodel.SplashVM
 import com.mop.app.databinding.ActivitySplashBinding
+import com.mop.app.viewmodel.SplashVM
 import com.mop.base.base.act.BaseVBAct
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlin.system.exitProcess
 
-class SplashAct : BaseVBAct<ActivitySplashBinding, SplashVM>() {
+class SplashAct : BaseVBAct<SplashVM, ActivitySplashBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
 //        Utils.setStatusBar(this)

@@ -6,7 +6,7 @@ import com.mop.ui.databinding.FragmentUiSon2Binding
 import com.mop.ui.viewmodel.EmptyVM
 
 
-class Son2Fragment : BaseVBFragment<FragmentUiSon2Binding, EmptyVM>() {
+class Son2Fragment : BaseVBFragment<EmptyVM, FragmentUiSon2Binding>() {
     override fun initData() {
 
     }

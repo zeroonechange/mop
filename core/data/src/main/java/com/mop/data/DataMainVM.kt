@@ -1,34 +1,42 @@
 package com.mop.data
 
-import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import com.mop.base.data.MyRepository
-import com.mop.base.mvvm.BaseViewModel
-import kotlinx.coroutines.flow.collect
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.scopeNetLife
+import com.drake.net.Get
+import com.mop.base.base.viewmodel.BaseViewModel
 
-class DataMainVM(app: Application) : BaseViewModel<MyRepository>(app) {
 
-    var app: Application = app
+class DataMainVM : BaseViewModel() {
 
-    init {
-
-    }
-
-    val data = MutableLiveData<List<Any>>()
-    val str = MutableLiveData<String>()
-
-    private suspend fun queryBanner() {
-        mModel.queryBanner().collect {
-            str.postValue(it.data.toString())
-            when (it.code == 200) {
-
-            }
+    val single = View.OnClickListener {
+        Log.e(TAG, "single nothing ???   ", )
+        scopeNetLife {
+            val data = Get<String>("http://www.baidu.com/").await()
+            Log.e(TAG, "single:  $data")
         }
     }
+    val queue = View.OnClickListener {
+        Log.e(TAG, "queue nothing ???  ", )
+        scopeNetLife {
+            val data = Get<String>("http://0000www.baidu.com/").await() // 请求A 发起GET请求并返回数据
+            Log.e(TAG, "a-> $data")
+            val datb = Get<String>("http://www.baidu.com/").await() // 请求B 将等待A请求完毕后发起GET请求并返回数据
+            Log.e(TAG, "b-> $datb ")
+        }
+    }
+    val async = View.OnClickListener {
+        Log.e(TAG, "async nothing ???  ", )
+        scopeNetLife {
+            // 以下两个网络请求属于同时进行中
+            val aDeferred = Get<String>("http://www.baidu.com/") // 发起GET请求并返回一个对象(Deferred)表示"任务A"
+            val bDeferred = Get<String>("http://www.baidu.com/") // 发起请求并返回"任务B"
 
-    fun loadData() {
-        launchUI {
-            queryBanner()
+            // 随任务同时进行, 但是数据依然可以按序返回
+            val aData = aDeferred.await() // 等待任务A返回数据
+            val bData = bDeferred.await() // 等待任务B返回数据
+            val re = aData + bData
+            Log.e(TAG, "re === $re ")
         }
     }
 }

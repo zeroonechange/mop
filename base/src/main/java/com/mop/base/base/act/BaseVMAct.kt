@@ -35,7 +35,7 @@ abstract class BaseVMAct<VM : BaseViewModel> : AppCompatActivity() {
         var modelClass: Class<VM>?
         val type: Type? = javaClass.genericSuperclass
         modelClass = if (type is ParameterizedType) {
-            type.actualTypeArguments[1] as? Class<VM>
+            type.actualTypeArguments[0] as? Class<VM>
         } else null
         if (modelClass == null) {
             modelClass = BaseViewModel::class.java as Class<VM>

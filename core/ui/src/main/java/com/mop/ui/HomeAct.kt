@@ -31,7 +31,7 @@ import com.mop.ui.viewmodel.EmptyVM
 import kotlinx.android.synthetic.main.activity_home.*
 
 @Route(path = ArouterTable.UI_HOME_ACT)
-class HomeAct : BaseVBAct<ActivityHomeBinding, EmptyVM>() {
+class HomeAct : BaseVBAct<EmptyVM, ActivityHomeBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
 

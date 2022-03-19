@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_ui_main.*
 import java.util.*
 
 
-class UIMainFragment : BaseVBFragment<FragmentUiMainBinding, UIMainVM>(),
+class UIMainFragment : BaseVBFragment<UIMainVM, FragmentUiMainBinding>(),
     ViewPager.OnPageChangeListener {
 
     private var pagerAdapter: ExplorePagerAdapter? = null
@@ -42,7 +42,9 @@ class UIMainFragment : BaseVBFragment<FragmentUiMainBinding, UIMainVM>(),
         }
         // 将viewpager 和 tablayout绑定起来 点击自动滑动
         ViewPager1Delegate.install(viewpager, tablayout)
+
         tablayout.setCurrentItem(1)
+        viewpager.currentItem = 1
 
         // 监听
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->

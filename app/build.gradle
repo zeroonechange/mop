@@ -49,7 +49,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 
     if (!rootProject.ext.isData) {
-//        implementation project(path: ':data')
+        implementation project(path: ':data')
     }
 
     if (!rootProject.ext.isUI) {

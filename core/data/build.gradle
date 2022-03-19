@@ -62,4 +62,12 @@ android {
 dependencies {
     implementation project(path: ':base')
     kapt 'com.alibaba:arouter-compiler:1.5.2'
+
+    // 协程库(版本可自定)
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    // OkHttp(版本可自定, 要求OkHttp4以上版本)
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    // Net
+    implementation 'com.github.liangjingkanji:Net:3.1.2'
+
 }

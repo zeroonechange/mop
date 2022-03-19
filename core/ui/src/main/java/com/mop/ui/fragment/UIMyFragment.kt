@@ -6,13 +6,13 @@ import com.mop.ui.databinding.FragmentUiMyBinding
 import com.mop.ui.viewmodel.EmptyVM
 
 
-class UIMyFragment : BaseVBFragment<FragmentUiMyBinding, EmptyVM>() {
+class UIMyFragment : BaseVBFragment<EmptyVM, FragmentUiMyBinding>() {
 
     override fun initData() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        TODO("Not yet implemented")
+
     }
 }

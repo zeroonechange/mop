@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding
 import com.mop.base.base.viewmodel.BaseViewModel
 import com.mop.base.ext.inflateBindingWithGeneric
 
-abstract class BaseDBFragment<DB : ViewDataBinding, VM : BaseViewModel> : BaseVMFragment<VM>() {
+abstract class BaseDBFragment<VM : BaseViewModel, DB : ViewDataBinding> : BaseVMFragment<VM>() {
 
     override fun layoutID(): Int = 0
 

@@ -5,9 +5,9 @@ import androidx.databinding.ViewDataBinding
 import com.mop.base.base.viewmodel.BaseViewModel
 import com.mop.base.ext.inflateBindingWithGeneric
 
-abstract class BaseDBAct<DB : ViewDataBinding, VM : BaseViewModel> : BaseVMAct<VM>() {
+abstract class BaseDBAct<VM : BaseViewModel, DB : ViewDataBinding> : BaseVMAct<VM>() {
 
-    override fun layoutID(): Int =0
+    override fun layoutID(): Int = 0
 
     lateinit var mDataBinding: DB
 

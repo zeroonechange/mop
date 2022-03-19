@@ -9,7 +9,7 @@ import com.mop.base.base.act.BaseVBAct
 import com.mop.base.util.ArouterTable
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseVBAct<ActivityMainBinding, SplashVM>() {
+class MainActivity : BaseVBAct<SplashVM, ActivityMainBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         //        Utils.setStatusBar(this)
