@@ -1,5 +1,6 @@
 package com.mop.base.ext
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,19 @@ class CommonExt {
 }
 
 /**
+ * 获取屏幕宽度
+ */
+val Context.screenWidth
+    get() = resources.displayMetrics.widthPixels
+
+/**
+ * 获取屏幕高度
+ */
+val Context.screenHeight
+    get() = resources.displayMetrics.heightPixels
+
+
+/**
  * 判断是否为空 并传入相关操作
  */
 inline fun <reified T> T?.notNull(notNullAction: (T) -> Unit, nullAction: () -> Unit = {}) {
@@ -24,18 +38,6 @@ inline fun <reified T> T?.notNull(notNullAction: (T) -> Unit, nullAction: () -> 
         nullAction.invoke()
     }
 }
-
-/**
- * 高阶函数是将函数用作参数或返回值的函数
- * todo
- * 内联函数  提高性能
- */
-
-inline fun <T> lock(lock: Lock, body: () -> T): T {
-
-    return body.invoke()
-}
-
 
 @JvmName("inflateWithGeneric")
 fun <VB : ViewBinding> AppCompatActivity.inflateBindingWithGeneric(layoutInflater: LayoutInflater): VB =
