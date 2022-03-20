@@ -23,7 +23,7 @@ fun onClickCommand(
     }
     var milliseconds = intervalMilliseconds
     if (milliseconds == null) {
-        milliseconds =  500
+        milliseconds = 500
     }
     if (interval) {
         clickCommand?.let { view.clickWithTrigger(milliseconds.toLong(), it) }
@@ -77,13 +77,13 @@ fun <T : View> T.clickWithTrigger(
     isViewModel: Boolean = true
 ) {
     triggerDelay = delay
-    if (isViewModel){
+    if (isViewModel) {
         setOnClickListener {
             if (clickEnable()) {
                 block.onClick(this)
             }
         }
-    }else{
+    } else {
         if (this.hasOnClickListeners()) {
             if (clickEnable()) {
                 block.onClick(this)
@@ -97,3 +97,4 @@ fun <T : View> T.clickWithTrigger(
         }
     }
 }
+
