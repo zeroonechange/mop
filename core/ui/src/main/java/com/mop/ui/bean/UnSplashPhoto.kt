@@ -16,11 +16,8 @@ data class UnSplashPhotoItem(
     val id: String,
     val liked_by_user: Boolean,
     val likes: Int,
-    val links: Links,
-    val location: Location,
     val promoted_at: String,
     val sponsorship: Any,
-    val topic_submissions: TopicSubmissions,
     val updated_at: String,
     val urls: Urls,
     val user: User,
@@ -37,23 +34,6 @@ data class Exif(
     val model: String,
     val name: String
 )
-
-data class Links(
-    val download: String,
-    val download_location: String,
-    val html: String,
-    val self: String
-)
-
-data class Location(
-    val city: Any,
-    val country: Any,
-    val name: Any,
-    val position: Position,
-    val title: Any
-)
-
-class TopicSubmissions
 
 data class Urls(
     val full: String,
@@ -84,11 +64,6 @@ data class User(
     val twitter_username: String,
     val updated_at: String,
     val username: String
-)
-
-data class Position(
-    val latitude: Any,
-    val longitude: Any
 )
 
 data class LinksX(

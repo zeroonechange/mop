@@ -2,6 +2,7 @@ apply from: "config.gradle"
 
 buildscript {
     repositories {
+        mavenCentral()
         maven {url 'https://jitpack.io'}
         maven{ url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url "https://maven.aliyun.com/repository/public" }
@@ -9,7 +10,6 @@ buildscript {
         maven { url "https://maven.aliyun.com/repository/central" }
         maven { url "https://mirrors.tencent.com/nexus/repository/maven-public/" }
         google()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
@@ -22,6 +22,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         maven {url 'https://jitpack.io'}
         maven{ url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url "https://maven.aliyun.com/repository/public" }
@@ -29,7 +30,6 @@ allprojects {
         maven { url "https://maven.aliyun.com/repository/central" }
         maven { url "https://mirrors.tencent.com/nexus/repository/maven-public/" }
         google()
-        mavenCentral()
     }
 }
 

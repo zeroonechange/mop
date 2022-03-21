@@ -14,12 +14,13 @@
 
         <TextView
             android:text="
-先搭好架子-搬来成熟案例\n
-研究底层-改造自适应-进阶成体系\n
-优化结构流程-打造最新"
-            android:layout_marginTop="20dp"
+富强、民主、文明、和谐。\n
+自由、平等、公正、法治。\n
+爱国、敬业、诚信、友善。"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:textSize="23sp"
-            android:textColor="@color/accent"
+            android:textColor="@color/menu_nav_checked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
