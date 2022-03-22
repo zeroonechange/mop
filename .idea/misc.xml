@@ -8,7 +8,23 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_main.xml" value="0.2341485507246377" />
+        <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_splash.xml" value="0.2817028985507246" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_check_mode.xml" value="0.403125" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_default_avatar.xml" value="0.403125" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_launcher_background.xml" value="0.403125" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/activity_data_main.xml" value="0.26721014492753625" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/activity_data_net.xml" value="0.26721014492753625" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/data_activity_main.xml" value="0.22" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/data_activity_net.xml" value="0.21105072463768115" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_empty.xml" value="0.2817028985507246" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_mmkv.xml" value="0.26721014492753625" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_net.xml" value="0.26721014492753625" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/layout_drawer_nav_header.xml" value="0.21105072463768115" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/menu_group.xml" value="0.38697916666666665" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/menu_main.xml" value="0.38697916666666665" />
+        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/nav_group.xml" value="0.38697916666666665" />
         <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/drawable/divider_horizontal.xml" value="0.38055555555555554" />
+        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/fragment_ui_son_1.xml" value="0.2817028985507246" />
         <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/fragment_ui_son_2.xml" value="0.18819655521783182" />
         <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_banner.xml" value="0.2341485507246377" />
         <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_banner_img.xml" value="0.18819655521783182" />

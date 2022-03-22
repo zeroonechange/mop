@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2018 Drake, Inc.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main.xml"
+    app:startDestination="@id/netFragment">
+
+
+    <fragment
+        android:id="@+id/netFragment"
+        android:name="com.mop.data.fragment.NetFragment"
+        android:label="网络请求"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/composeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="from label- 顶部" />
+
+    <include app:graph="@navigation/nav_group" />
+
+    <fragment
+        android:id="@+id/multiTypeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="多类型"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/checkModeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="选择模式"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/stateLayoutFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="缺省状态"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/swipeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="侧滑"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/oneMoreTypeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="一对多"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/flexBoxFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="伸缩布局"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/headerFooterFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="头|脚布局"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/groupGridFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="分组"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/refreshFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="刷新列表"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/preloadFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="预加载"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/upFetchFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="预拉取"
+        tools:layout="@layout/fragment_data_empty" />
+
+
+    <fragment
+        android:id="@+id/interfaceFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="接口类型绑定"
+        tools:layout="@layout/fragment_data_empty" />
+
+    <fragment
+        android:id="@+id/dragFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="拖拽"
+        tools:layout="@layout/fragment_data_empty" />
+    <fragment
+        android:id="@+id/coordinatorLayoutFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="CoordinatorLayout" />
+    <fragment
+        android:id="@+id/viewBindingFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="ViewBinding" />
+    <fragment
+        android:id="@+id/differDataChangeFragment"
+        android:name="com.mop.data.fragment.EmptyFragment"
+        android:label="对比数据变化" />
+
+
+
+</navigation>

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mop.data.DataMainVM" />
+            type="com.mop.data.viewmodel.NetVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

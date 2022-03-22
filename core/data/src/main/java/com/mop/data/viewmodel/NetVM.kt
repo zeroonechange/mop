@@ -1,4 +1,4 @@
-package com.mop.data
+package com.mop.data.viewmodel
 
 import android.util.Log
 import android.view.View
@@ -7,7 +7,7 @@ import com.drake.net.Get
 import com.mop.base.base.viewmodel.BaseViewModel
 
 
-class DataMainVM : BaseViewModel() {
+class NetVM : BaseViewModel() {
 
     val single = View.OnClickListener {
         Log.e(TAG, "single nothing ???   ")
