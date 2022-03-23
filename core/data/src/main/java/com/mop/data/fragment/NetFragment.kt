@@ -13,6 +13,6 @@ class NetFragment : BaseDBFragment<NetVM, FragmentDataNetBinding>() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        mDatabind.viewModel = viewModel
     }
 }

@@ -1,7 +1,9 @@
 package com.mop.base.net
 
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.drake.net.NetConfig
 import com.drake.net.okhttp.setConverter
+import com.mop.base.base.BaseApp
 import java.util.concurrent.TimeUnit
 
 
@@ -17,6 +19,7 @@ fun initNetUnsplash() {
         writeTimeout(30, TimeUnit.SECONDS)
 //        setConverter(SerializationConverter())
         setConverter(GsonConverter())
+        addInterceptor(ChuckerInterceptor(BaseApp.instance!!))
         retryOnConnectionFailure(true)
 //            addInterceptor()
 //            cache()
