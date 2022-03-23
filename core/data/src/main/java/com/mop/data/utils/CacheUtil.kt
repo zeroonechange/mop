@@ -2,100 +2,95 @@ package com.mop.data.utils
 
 import android.text.TextUtils
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.mop.data.bean.UserInfo
 import com.tencent.mmkv.MMKV
 
 object CacheUtil {
-    /**
-     * 获取保存的账户信息
-     */
+
+    const val ID = "mop_v1"
+    const val USER = "user"
+    const val LOGIN = "login"
+    const val FIRST_LOGIN = "first_login"
+
+
+    private fun getMMKV(): MMKV {
+        return MMKV.mmkvWithID(ID)
+    }
+
+    fun savaString(key: String, value: String): Boolean {
+        return getMMKV().encode(key, value)
+    }
+
+    fun getString(key: String, defaultValue: String = ""): String {
+        return getMMKV().decodeString(key, defaultValue)
+    }
+
+    fun saveInt(key: String, value: Int): Boolean {
+        return getMMKV().encode(key, value)
+    }
+
+    fun getInt(key: String, defaultValue: Int = 0): Int {
+        return getMMKV().getInt(key, defaultValue)
+    }
+
+
+    fun saveBool(key: String, value: Boolean): Boolean {
+        return getMMKV().encode(key, value)
+    }
+
+    fun getBool(key: String, defaultValue: Boolean = false): Boolean {
+        return getMMKV().decodeBool(key, defaultValue)
+    }
+
+    fun saveFloat(key: String, value: Float): Boolean {
+        return getMMKV().encode(key, value)
+    }
+
+    fun getFloat(key: String, defaultValue: Float = 0.0f): Float {
+        return getMMKV().decodeFloat(key, defaultValue)
+    }
+
+
     fun getUser(): UserInfo? {
-        val kv = MMKV.mmkvWithID("app")
-        val userStr = kv.decodeString("user")
+        val kv = getMMKV()
+        val userStr = kv.decodeString(USER)
         return if (TextUtils.isEmpty(userStr)) {
-           null
+            null
         } else {
             Gson().fromJson(userStr, UserInfo::class.java)
         }
     }
 
-    /**
-     * 设置账户信息
-     */
     fun setUser(userResponse: UserInfo?) {
-        val kv = MMKV.mmkvWithID("app")
+        val kv = getMMKV()
         if (userResponse == null) {
-            kv.encode("user", "")
+            kv.encode(USER, "")
             setIsLogin(false)
         } else {
-            kv.encode("user", Gson().toJson(userResponse))
+            kv.encode(USER, Gson().toJson(userResponse))
             setIsLogin(true)
         }
-
     }
 
-    /**
-     * 是否已经登录
-     */
     fun isLogin(): Boolean {
-        val kv = MMKV.mmkvWithID("app")
-        return kv.decodeBool("login", false)
+        val kv = getMMKV()
+        return kv.decodeBool(LOGIN, false)
     }
 
-    /**
-     * 设置是否已经登录
-     */
     fun setIsLogin(isLogin: Boolean) {
-        val kv = MMKV.mmkvWithID("app")
-        kv.encode("login", isLogin)
+        val kv = getMMKV()
+        kv.encode(LOGIN, isLogin)
     }
 
-    /**
-     * 是否是第一次登陆
-     */
+
     fun isFirst(): Boolean {
-        val kv = MMKV.mmkvWithID("app")
-        return kv.decodeBool("first", true)
-    }
-    /**
-     * 是否是第一次登陆
-     */
-    fun setFirst(first:Boolean): Boolean {
-        val kv = MMKV.mmkvWithID("app")
-        return kv.encode("first", first)
+        val kv = getMMKV()
+        return kv.decodeBool(FIRST_LOGIN, true)
     }
 
-    /**
-     * 首页是否开启获取指定文章
-     */
-    fun isNeedTop(): Boolean {
-        val kv = MMKV.mmkvWithID("app")
-        return kv.decodeBool("top", true)
-    }
-    /**
-     * 设置首页是否开启获取指定文章
-     */
-    fun setIsNeedTop(isNeedTop:Boolean): Boolean {
-        val kv = MMKV.mmkvWithID("app")
-        return kv.encode("top", isNeedTop)
-    }
 
-    /**
-     * 获取搜索历史缓存数据
-     */
-    fun getSearchHistoryData(): ArrayList<String> {
-        val kv = MMKV.mmkvWithID("cache")
-        val searchCacheStr =  kv.decodeString("history")
-        if (!TextUtils.isEmpty(searchCacheStr)) {
-            return Gson().fromJson(searchCacheStr
-                , object : TypeToken<ArrayList<String>>() {}.type)
-        }
-        return arrayListOf()
-    }
-
-    fun setSearchHistoryData(searchResponseStr: String) {
-        val kv = MMKV.mmkvWithID("cache")
-        kv.encode("history",searchResponseStr)
+    fun setFirst(first: Boolean): Boolean {
+        val kv = getMMKV()
+        return kv.encode(FIRST_LOGIN, first)
     }
 }
