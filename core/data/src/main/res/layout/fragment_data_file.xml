@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.mop.data.viewmodel.NetVM" />
+            type="com.mop.data.viewmodel.FileVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/purple_700"
+        android:background="@color/chinaHoliDay"
         tools:context=".DataMainActivity">
 
 
@@ -27,25 +27,22 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                onClickCommand="@{viewModel.single}"
+                onClickCommand="@{viewModel.read}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="widgetClick"
-                android:text="单个请求 " />
+                android:text="read file " />
 
             <Button
-                onClickCommand="@{viewModel.queue}"
+                onClickCommand="@{viewModel.write}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="widgetClick"
-                android:text="串行请求" />
+                android:text="write into file" />
 
             <Button
-                onClickCommand="@{viewModel.async}"
+                onClickCommand="@{viewModel.delete}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="widgetClick"
-                android:text="并发请求" />
+                android:text="delete file" />
 
         </LinearLayout>
 

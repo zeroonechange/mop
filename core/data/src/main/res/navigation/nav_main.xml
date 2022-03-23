@@ -28,9 +28,9 @@
         tools:layout="@layout/fragment_data_empty" />
 
     <fragment
-        android:id="@+id/composeFragment"
-        android:name="com.mop.data.fragment.EmptyFragment"
-        android:label="from label- 顶部" />
+        android:id="@+id/fileFragment"
+        android:name="com.mop.data.fragment.FileFragment"
+        android:label="文件操作" />
 
     <include app:graph="@navigation/nav_group" />
 

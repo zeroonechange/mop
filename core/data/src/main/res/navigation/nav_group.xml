@@ -25,13 +25,13 @@
         android:label="MMKV"
         tools:layout="@layout/fragment_data_mmkv" />
     <fragment
-        android:id="@+id/groupDragFragment"
-        android:name="com.mop.data.fragment.EmptyFragment"
-        android:label="拖拽分组"
-        tools:layout="@layout/fragment_data_empty" />
+        android:id="@+id/spFragment"
+        android:name="com.mop.data.fragment.SpFragment"
+        android:label="SP"
+        tools:layout="@layout/fragment_data_sp" />
     <fragment
-        android:id="@+id/groupFragment"
-        android:name="com.mop.data.fragment.EmptyFragment"
-        android:label="嵌套分组"
-        tools:layout="@layout/fragment_data_empty" />
+        android:id="@+id/objFragment"
+        android:name="com.mop.data.fragment.ObjFragment"
+        android:label="OBJ"
+        tools:layout="@layout/fragment_data_obj" />
 </navigation>
