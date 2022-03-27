@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ASMIdeaPluginConfiguration">
-    <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
-    <groovy codeStyle="LEGACY" />
-  </component>
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_main.xml" value="0.2341485507246377" />
-        <entry key="..\:/android/GWSpace/mop/app/src/main/res/layout/activity_splash.xml" value="0.2817028985507246" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_check_mode.xml" value="0.403125" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_default_avatar.xml" value="0.403125" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/drawable/ic_launcher_background.xml" value="0.403125" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/activity_data_main.xml" value="0.26721014492753625" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/activity_data_net.xml" value="0.26721014492753625" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/data_activity_main.xml" value="0.22" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/data_activity_net.xml" value="0.21105072463768115" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_empty.xml" value="0.2817028985507246" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_file.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_mmkv.xml" value="0.26721014492753625" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_net.xml" value="0.26721014492753625" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_obj.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/fragment_data_sp.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/layout/layout_drawer_nav_header.xml" value="0.21105072463768115" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/menu_group.xml" value="0.38697916666666665" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/menu_main.xml" value="0.38697916666666665" />
-        <entry key="..\:/android/GWSpace/mop/core/data/src/main/res/menu/nav_group.xml" value="0.38697916666666665" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/drawable/divider_horizontal.xml" value="0.38055555555555554" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/fragment_ui_son_1.xml" value="0.2817028985507246" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/fragment_ui_son_2.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_banner.xml" value="0.2341485507246377" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_banner_img.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_img.xml" value="0.18819655521783182" />
-        <entry key="..\:/android/GWSpace/mop/core/ui/src/main/res/layout/item_straggle.xml" value="0.18819655521783182" />
+        <entry key="..\:/fuckandroidgetmoney/gradle/.gradle/caches/transforms-3/b00fbcc0fff73d2bd7c3cf8d36635aa8/transformed/jetified-core-3.3.0/res/drawable-v21/md_btn_shape.xml" value="0.3578125" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/app/src/main/res/layout/activity_main.xml" value="0.12590579710144928" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/app/src/main/res/layout/activity_splash.xml" value="0.16347124117053483" />
         <entry key="..\:/fuckandroidgetmoney/workspaces/mop/core/data/src/main/res/layout/data_activity_main.xml" value="0.291213768115942" />

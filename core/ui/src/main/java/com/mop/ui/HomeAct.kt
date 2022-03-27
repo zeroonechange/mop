@@ -10,6 +10,7 @@ import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -79,10 +80,17 @@ class HomeAct : BaseVBAct<EmptyVM, ActivityHomeBinding>() {
                     LiveDataBus.send("openDrawer", 0)
                 }
                 R.id.menu_system -> {
-
+                    ARouter.getInstance()
+                        .build(ArouterTable.UI_MAIN_ACT)
+                        .greenChannel()
+                        .navigation()
                 }
                 R.id.menu_public -> {
 
+                    ARouter.getInstance()
+                        .build(ArouterTable.UI_MAIN_ACT)
+                        .greenChannel()
+                        .navigation()
                 }
                 R.id.menu_me -> {
                     FragmentUtil.showFragment(

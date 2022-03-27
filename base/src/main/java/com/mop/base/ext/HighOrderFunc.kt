@@ -179,7 +179,7 @@ class Myclass {
     }
 }
 
-class MyClass {
+class MyClasss {
     companion object {}
 }
 
@@ -187,7 +187,7 @@ class MyClass {
 // 使用 @JvmStatic 注解  可以将伴生对象的成员生成为真正的静态方法和字段
 fun mainb() {
     val instance = Myclass.create() //
-    val x = MyClass.Companion
+    val x = MyClasss.Companion
 }
 
 //对象表达式  使用他们的地方立即执行/初始化的  匿名内部类  main方法里面创建 hello
