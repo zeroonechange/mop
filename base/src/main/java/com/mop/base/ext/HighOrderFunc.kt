@@ -1,4 +1,4 @@
-package com.mop.base.ext
+import sun.net.NetworkServer
 import java.io.File
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
@@ -53,6 +53,11 @@ class Rectangle(val width: Int, val heighg: Int) {
             }
         }
 }
+
+/**
+ * lateinit 和  by lazy的区别
+ * lateinit 用var 修饰  后面可以随意改   by lazy 只能用 val  不可改
+ */
 
 // 延迟加载
 class MyLateinit {
@@ -179,7 +184,7 @@ class Myclass {
     }
 }
 
-class MyClasss {
+class MyClass {
     companion object {}
 }
 
@@ -187,17 +192,20 @@ class MyClasss {
 // 使用 @JvmStatic 注解  可以将伴生对象的成员生成为真正的静态方法和字段
 fun mainb() {
     val instance = Myclass.create() //
-    val x = MyClasss.Companion
+    val x = MyClass.Companion
 }
 
 //对象表达式  使用他们的地方立即执行/初始化的  匿名内部类  main方法里面创建 hello
 //对象声明    第一次被返回时 延迟初始化的     类似 View.OnclickListener
 //伴生对象    类被加载时 java静态初始化器 语义相匹配   类似于静态成员
 
+// 委托？ by  延迟 bylazy  可观察 by observable  属性映射  by map
+// 干啥用  给别人 类似于中介  adapter
 
 // 委托   get set 方法 修复 重写？
 // 这是委托属性  还有个委托接口  类似于 多态+代理模式
 // 还是看属性委托吧  三种  延迟属性  可观察属性 多属性存储映射
+// 底层原理是 编译器 生成了一些 get和 set代码    还用了一些反射
 class example {
     var p: String by Delegate()   //语法是  val/var <属性名>: <属性类型> by <表达式>
 }
@@ -285,7 +293,62 @@ fun mainam() {
     println(user.age)
 }
 
-// 局部委托属性
+
+
+
+// 操作符重载  + *
+// +a  a.unaryPlus()
+// -a  a.unaryMinus()
+// !a  a.not()
+// a++ a.inc()
+// a-- a.dec()
+// a+b  a.plus(b)
+// a-b  a.miuns(b)
+// a*b  a.times(b)
+// a/b  a.div(b)
+// a%b  a.rem(b)
+// a..b   a.rangeTo(b)
+//a in b  b.contains(a)
+//a !in b !b.contains(a)
+data class Point(val x:Int, val y: Int)
+operator fun Point.unaryMinus() = Point(-x, -y)
+data class Counter(val dayIndex: Int){
+    operator fun plus(increment: Int): Counter{
+        return Counter(dayIndex + increment)
+    }
+}
+fun mainsz() {
+    val p = Point(10, 20)
+    print(-p)  // -10 -20
+}
+// invoke 操作符
+//a()   a.invoke()
+//a(i)  a.invoke(i)
+//a(i,j)    a.invoke(i,j)
+//a(i_1,......,i_n)    a.invoke(i_1,......,i_n)
+
+// 广义赋值
+// a+=b     a.plusAssign(b)
+// and so on ... like   a-=b  a*=b  a/=b  a%=b
+
+// 相等与不等表达式
+// a==b  a?.equals(b)?:(b==null)
+// a!=b  !(a?.equals(b)?:(b==null))
+
+//比较操作符
+// a>b  a.compareTo(b)>0
+// and so on ... like a<b  a>=b  a<=b
+
+fun main() {
+    val a="kotlin"
+    val b:String? = null
+    val c:String? = "null"
+    println(a?.length)
+    println(b?.length?:0.compareTo(12))
+    println(c?.length)
+}
+
+
 
 
 
