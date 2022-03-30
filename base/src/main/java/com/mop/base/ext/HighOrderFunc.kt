@@ -316,10 +316,17 @@ data class Counter(val dayIndex: Int){
     operator fun plus(increment: Int): Counter{
         return Counter(dayIndex + increment)
     }
+    operator fun times(std: String): Counter{
+        return Counter(dayIndex)
+    }
 }
 fun mainsz() {
     val p = Point(10, 20)
     print(-p)  // -10 -20
+
+    val co = Counter(30)
+    val another = co*"hello"
+    another.dayIndex
 }
 // invoke 操作符
 //a()   a.invoke()
@@ -339,14 +346,39 @@ fun mainsz() {
 // a>b  a.compareTo(b)>0
 // and so on ... like a<b  a>=b  a<=b
 
-fun main() {
+
+
+//安全的调用  链式 返回 null
+fun mainzv() {
     val a="kotlin"
     val b:String? = null
     val c:String? = "null"
     println(a?.length)
     println(b?.length?:0.compareTo(12))
     println(c?.length)
+
+    //elvis 操作符
+    val node: String? = null
+    val name = node ?: throw IllegalArgumentException("name excepted")
+    val fl = node as? Float // 安全转换
+
+    fun printTop(){ println("--top--") }
+
+    class A{
+        fun printSon(){ println("--son--") }
+        fun invokePrintSon(omitThis: Boolean = false){
+            if(omitThis) printSon()
+            else this.printSon()
+        }
+    }
+    A().invokePrintSon()                 // son
+    A().invokePrintSon(omitThis = true)  // top
+
+
 }
+
+
+
 
 
 
