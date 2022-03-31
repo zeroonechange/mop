@@ -1,5 +1,6 @@
 import sun.net.NetworkServer
 import java.io.File
+import javax.sql.DataSource
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -373,10 +374,21 @@ fun mainzv() {
     }
     A().invokePrintSon()                 // son
     A().invokePrintSon(omitThis = true)  // top
-
-
 }
 
+
+// 密封类
+sealed interface Error
+sealed class IOError(): Error
+class FieldReadError(val f: File): IOError()
+class DatabaseError(val source: DataSource): IOError()
+object RuntimeError: Error
+
+fun log(e: Error) = when(e){
+    is FieldReadError -> { }
+    is DatabaseError -> { }
+    RuntimeError -> {  }
+}
 
 
 
