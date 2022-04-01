@@ -391,6 +391,54 @@ fun log(e: Error) = when(e){
 }
 
 
+enum class RGB {RED, GREEN, BLUE}
+inline fun <reified  T: Enum<T>> printAll(){
+    print(enumValues<T>().joinToString { it.name })
+}
+fun mainXV() {
+    printAll<RGB>() // RED, GREEN, BLUE
+}
+
+
+//内联类   解决包装类的内存分配问题   inline 已经被废弃了 过时了额
+@JvmInline
+value class PWD(private val s: String)
+val pwd = PWD("mymima123PWD") // 不存在 实例对象  在运行时 仅仅包含 String
+
+// 内联类可以声明函数和属性
+@JvmInline
+value class Name(val s: String){
+    init{
+        require(s.length > 0) {}
+    }
+    val length: Int
+        get() = s.length
+    fun greet(){
+        println("hello, $s")
+    }
+}
+
+fun maincb() {
+    val name = Name("kk")
+    name.greet()  // greet 方法 会作为一个静态方法被调用
+    println(name.length) // 属性的 get 方法 会作为一个静态方法被调用
+}
+//内联类的继承
+interface Printable{
+    fun preetyPrint(): String
+}
+@JvmInline
+value class NickName(val s: String) : Printable{
+    override fun preetyPrint(): String = "lets go $s"
+}
+
+fun mainCN() {
+    val nickName = NickName("cc")
+    println(nickName.preetyPrint()) //作为一个静态方法被调用
+}
+
+
+
 
 
 
