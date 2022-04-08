@@ -26,6 +26,92 @@ class AsyncKotlin {
 
 
 /*
+协程调度器
+    确定了相关的协程在哪个线程或哪些线程上执行
+    可以将协程限制在某个特定的线程执行，或将它分派到一个线程池，亦或是让它不受限地运行
+    Dispatchers.Unconfined 是个特殊的调度器且似乎也运行在 main 线程中，但实际上， 它是一种不同的机制
+    非受限调度器 有种虚拟内存的感觉  内存不够了  另外开辟了一个虚拟内存去应付
+
+上下文
+    coroutineContext [Job]
+    CoroutineScope 中的 isActive 只是 coroutineContext[Job]?.isActive == true 的快捷方式
+
+子协程
+    当一个父协程被取消的时候，所有它的子协程也会被递归的取消。
+    一个父协程总是等待所有的子协程执行结束
+    request.join() // 等待请求的完成，包括其所有子协程
+* */
+
+
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+fun main() = runBlocking<Unit> {
+
+}
+
+
+fun main16() = runBlocking<Unit> {
+    val request = launch {
+        repeat(3) { i ->
+            launch {
+                delay((i + 1) * 200L)
+                println("coroutine $i is done")
+            }
+        }
+        println("wait my child to run ")
+    }
+    request.join()
+    println("----complete----")
+}
+
+
+fun main15() = runBlocking<Unit> {
+    val request = launch {
+        launch(Job()) {
+            println("job1: -----1-----")
+            delay(1000)
+            println("job1: -----2-----")
+        }
+        launch {
+            delay(100)
+            println("job2: -----1-----")
+            delay(1000)
+            println("job2: -----2-----")
+        }
+    }
+    delay(500)
+    request.cancel()
+    delay(1000)
+    println("main who has survived ?????? ")
+}
+
+fun main14() = runBlocking<Unit> {
+    println("my job is  ${coroutineContext[Job]}")
+    //  my job is  BlockingCoroutine{Active}@2328c243
+}
+
+fun main13() = runBlocking<Unit> {
+    launch(Dispatchers.Unconfined) {
+        val name = Thread.currentThread().name
+        println("Unconfined : im working $name")
+        delay(500)
+        val name2 = Thread.currentThread().name
+        println("Unconfined : after that, im working $name2")
+    }
+
+    launch {
+        val name = Thread.currentThread().name
+        println("mian : im working $name")
+        delay(1000)
+        val name2 = Thread.currentThread().name
+        println("mian : after that, im working $name2")
+    }
+}
+
+
+/*
 协程:
 计算型 不会被 cancelAndJoin()  实际工作中网络请求  怎么请求一半就取消?
 CoroutineScope isActive 扩展属性  检查取消状态  感觉还是不太牢固 比如网络请求如何做呢
@@ -44,37 +130,37 @@ async + await 并发 组合挂起
     新的线程
 */
 
-fun main() = runBlocking<Unit> {
+fun main12() = runBlocking<Unit> {
     launch {
         println("main  " + Thread.currentThread().name)
     }
-    launch(Dispatchers.Unconfined){
+    launch(Dispatchers.Unconfined) {  // 非受限调度器
         println("Unconfined  " + Thread.currentThread().name)
     }
-    launch(Dispatchers.Default){
+    launch(Dispatchers.Default) {
         println("Default  " + Thread.currentThread().name)
     }
-    launch(newSingleThreadContext("myOwnThread")){
+    launch(newSingleThreadContext("myOwnThread")) {
         println("myOwnThread  " + Thread.currentThread().name)
     }
 }
 
 
 fun main11() = runBlocking<Unit> {
-    try{
+    try {
         failedConcurrentSum()
-    }catch (e: ArithmeticException){
+    } catch (e: ArithmeticException) {
 //        e.printStackTrace()
         println("compute failed with arithmetic exception")
     }
 }
 
-suspend fun failedConcurrentSum():Int = coroutineScope {
+suspend fun failedConcurrentSum(): Int = coroutineScope {
     val one = async<Int> {
-        try{
+        try {
             delay(Long.MAX_VALUE)
             42
-        }finally {
+        } finally {
             println("first child was cancelled")
         }
     }
@@ -88,8 +174,8 @@ suspend fun failedConcurrentSum():Int = coroutineScope {
 
 // 这种 子协程发生了错误  其他子协程和父协程 都会取消
 suspend fun concurrentSum(): Int = coroutineScope {
-    val one  = async { doSthOne() }
-    val two  = async { doSthTwo() }
+    val one = async { doSthOne() }
+    val two = async { doSthTwo() }
     one.await() + two.await()
 }
 
@@ -102,11 +188,13 @@ fun main10() = runBlocking<Unit> {
     }
     println("total time cost $time")
 }
-suspend fun doSthOne():Int{
+
+suspend fun doSthOne(): Int {
     delay(1300L)
     return 1
 }
-suspend fun doSthTwo():Int{
+
+suspend fun doSthTwo(): Int {
     delay(300L)
     return 5
 }
