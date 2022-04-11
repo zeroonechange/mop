@@ -25,6 +25,83 @@ class AsyncKotlin {
 // select 实验性的
 
 
+
+/*
+命名协程以调试
+自动分配的 id   可以自定义命名CoroutineName  - 看launch 可不可以用呢
+用 + 操作符 指定一个调度器 dispatcher  和 一个 命名
+launch(Dispatchers.Default + CoroutineName("test")) { }
+协程作用域
+生命周期 - CoroutineScope   抽象类  在activity销毁时 释放内存 避免内存泄露和溢出
+
+将线程局部数据传递到协程与协程之间
+ThreadLocal.asContextElement     高级的使用 -> ThreadContextElement
+* */
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+
+fun main() = runBlocking<Unit> {
+
+}
+
+
+// 模拟android中  activity的 生命周期
+class Activity{
+    private val mainScope = CoroutineScope(Dispatchers.Default)
+    fun destroy(){
+        mainScope.cancel()
+    }
+    fun doSth(){
+        repeat(10) {i->
+            mainScope.launch {
+                delay((i+1)*200L)
+                println("coroutine $i is done")
+            }
+        }
+    }
+}
+
+fun main23() = runBlocking<Unit> {
+    val act = Activity()
+    act.doSth()
+    println("-------1-------")
+    delay(500)
+    println("-------2-------")
+    act.destroy()
+    delay(1000)
+}
+
+
+inline fun getThreadName(): String = Thread.currentThread().name
+
+fun log(msg: String) = println("current thread name is ${getThreadName()}  msg: $msg")
+
+fun main22() = runBlocking<Unit>(CoroutineName("my-main")) {
+    log("start main coroutine")
+    val v1 = async(CoroutineName("v1 core")) {
+        delay(500)
+        log("complete v1")
+        200
+    }
+    val v2 = async(CoroutineName("v2 core")) {
+        delay(1000)
+        log("complete v2")
+        50
+    }
+    log("result is ${v1.await() + v2.await()}")
+}
+
+fun main21() = runBlocking<Unit> {
+    launch(Dispatchers.Unconfined + CoroutineName("my-name-SpiderMan")) {
+        println("Im working in ${getThreadName()}")
+    }
+}
+
+
+
+
 /*
 协程调度器
     确定了相关的协程在哪个线程或哪些线程上执行
@@ -41,16 +118,6 @@ class AsyncKotlin {
     一个父协程总是等待所有的子协程执行结束
     request.join() // 等待请求的完成，包括其所有子协程
 * */
-
-
-/*fun main() = runBlocking<Unit> {
-
-}*/
-
-fun main() = runBlocking<Unit> {
-
-}
-
 
 fun main16() = runBlocking<Unit> {
     val request = launch {
