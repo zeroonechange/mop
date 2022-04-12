@@ -1,4 +1,5 @@
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.lang.ArithmeticException
 import kotlin.system.measureTimeMillis
 
@@ -25,6 +26,81 @@ class AsyncKotlin {
 // select 实验性的
 
 
+/**
+suspend 函数可异步返回单个值 如何返回多个值呢?  --> Flow
+emit 发射  collect 收集    flow{} 构造块 代码可挂起  不带suspend 修饰符
+流是冷的  	被收集时才运行
+流取消    	和协程类似  withTimeoutOrNull
+流构建器  	flow{}  flowOf   asFlow()
+操作符    	map  filter  transform(可发射任意多次，兼容前面俩个)
+限长      	take
+末端操作符	collect | toList toSet(转为集合) | first single(单个值) | reduce fold (规约到单个值)
+流是连续的	收集按顺序执行 从上游到下游每个操作符 最后交给末端操作符
+流上下文  	根据collect的context可推断emit的context  俩者必须一致  不允许从其他context中发射
+例如长时间消耗cpu的需要在Dispatchers.Default  更新UI 需要在 Dispatchers.Main中执行
+flowOn操作符
+更改流发射的上下文  创造了另一个协程
+ */
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+
+fun main() = runBlocking<Unit> {
+    val sum = (1..5).asFlow()
+        .map { it*it }
+        .reduce { accumulator, value -> accumulator + value }
+    println(sum)
+}
+
+suspend fun performRequest(request: Int): String{
+    delay(1000)
+    return "response $request"
+}
+
+fun main33() = runBlocking<Unit> {
+    (1..5).asFlow()
+       /* .filter { it>1 }
+        .map { performRequest(it) }*/
+        .transform { it->    //transform 发射了俩个 不单单转换过滤这么简单了
+            emit("make new $it")
+            emit(performRequest(it))
+        }
+        .take(3)
+        .collect { println(it) }
+}
+
+fun simple1(): Flow<Int> = flow {
+    for(i in 1..3){
+        delay(100)
+        println("emit $i")
+        emit(i)
+    }
+}
+
+fun main32() = runBlocking<Unit> {
+    withTimeoutOrNull(250){
+        simple1().collect { it-> println(it) }
+    }
+    println("done")
+}
+
+fun simple(): Flow<Int> = flow {
+    println("flow started")
+    for(i in 1..3){
+        delay(100)
+        emit(i)
+    }
+}
+
+fun main31() = runBlocking<Unit> {
+    println("----0-----")
+    val flow = simple()
+    println("----1-----")
+    flow.collect { it-> println(it) }
+    println("-----2----")
+    flow.collect { it-> println(it) }
+}
 
 /*
 命名协程以调试
@@ -37,15 +113,6 @@ launch(Dispatchers.Default + CoroutineName("test")) { }
 将线程局部数据传递到协程与协程之间
 ThreadLocal.asContextElement     高级的使用 -> ThreadContextElement
 * */
-/*fun main() = runBlocking<Unit> {
-
-}*/
-
-
-fun main() = runBlocking<Unit> {
-
-}
-
 
 // 模拟android中  activity的 生命周期
 class Activity{
