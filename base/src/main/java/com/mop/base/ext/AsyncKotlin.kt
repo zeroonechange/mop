@@ -25,11 +25,16 @@ class AsyncKotlin {
 // 共享的可变状态与并发
 // select 实验性的
 
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+
 
 /**
 suspend 函数可异步返回单个值 如何返回多个值呢?  --> Flow
 emit 发射  collect 收集    flow{} 构造块 代码可挂起  不带suspend 修饰符
-流是冷的  	被收集时才运行
+流是冷的  	被收集时才运行 ---
 流取消    	和协程类似  withTimeoutOrNull
 流构建器  	flow{}  flowOf   asFlow()
 操作符    	map  filter  transform(可发射任意多次，兼容前面俩个)
@@ -37,32 +42,64 @@ emit 发射  collect 收集    flow{} 构造块 代码可挂起  不带suspend �
 末端操作符	collect | toList toSet(转为集合) | first single(单个值) | reduce fold (规约到单个值)
 流是连续的	收集按顺序执行 从上游到下游每个操作符 最后交给末端操作符
 流上下文  	根据collect的context可推断emit的context  俩者必须一致  不允许从其他context中发射
-例如长时间消耗cpu的需要在Dispatchers.Default  更新UI 需要在 Dispatchers.Main中执行
+    例如长时间消耗cpu的需要在Dispatchers.Default  更新UI 需要在 Dispatchers.Main中执行
 flowOn操作符
-更改流发射的上下文  创造了另一个协程
+    更改流发射的上下文  创造了另一个协程
  */
-/*fun main() = runBlocking<Unit> {
-
-}*/
-
 
 fun main() = runBlocking<Unit> {
+//    simple2().collect{ value: Int ->  log("collect $value") }
+//    simple3().collect{ value: Int ->  log("collect $value") }
+    simple4().collect{ value: Int ->  log("collect $value") }
+}
+
+fun simple4():Flow<Int> = flow{
+    for(i in 1..3){
+        Thread.sleep(100)
+        log("--emit---$i")
+        emit(i)
+    }
+}.flowOn(Dispatchers.Default) // 在流构建器中改变消耗cpu 代码上下文的正确方式
+//原理:  收集在协程1  发射在协程2 和协程1在同一个线程 是并发关系   flowOn 操作符创建了另一个协程
+
+fun simple3():Flow<Int> = flow{
+    withContext(Dispatchers.Default){
+        for(i in 1..3){
+            Thread.sleep(100)
+            log("--withcontext---")
+            emit(i)
+        }
+    }
+}
+
+fun simple2():Flow<Int> = flow{
+    log("start simple flow")
+    for(i in 1..3) emit(i)
+}
+
+fun <T> launchFlow(block: suspend () -> T): Flow<T> {
+    return flow {
+        emit(block())
+    }
+}
+
+fun main34() = runBlocking<Unit> {
     val sum = (1..5).asFlow()
-        .map { it*it }
-        .reduce { accumulator, value -> accumulator + value }
+        .map { it * it }
+        .reduce { accumulator, value -> accumulator + value }  // reduce 俩个值转成一个
     println(sum)
 }
 
-suspend fun performRequest(request: Int): String{
+suspend fun performRequest(request: Int): String {
     delay(1000)
     return "response $request"
 }
 
 fun main33() = runBlocking<Unit> {
     (1..5).asFlow()
-       /* .filter { it>1 }
-        .map { performRequest(it) }*/
-        .transform { it->    //transform 发射了俩个 不单单转换过滤这么简单了
+        /* .filter { it>1 }
+         .map { performRequest(it) }*/
+        .transform { it ->    //transform 发射了俩个 不单单转换过滤这么简单了
             emit("make new $it")
             emit(performRequest(it))
         }
@@ -71,7 +108,7 @@ fun main33() = runBlocking<Unit> {
 }
 
 fun simple1(): Flow<Int> = flow {
-    for(i in 1..3){
+    for (i in 1..3) {
         delay(100)
         println("emit $i")
         emit(i)
@@ -79,15 +116,15 @@ fun simple1(): Flow<Int> = flow {
 }
 
 fun main32() = runBlocking<Unit> {
-    withTimeoutOrNull(250){
-        simple1().collect { it-> println(it) }
+    withTimeoutOrNull(250) {
+        simple1().collect { it -> println(it) }
     }
     println("done")
 }
 
 fun simple(): Flow<Int> = flow {
     println("flow started")
-    for(i in 1..3){
+    for (i in 1..3) {
         delay(100)
         emit(i)
     }
@@ -97,9 +134,9 @@ fun main31() = runBlocking<Unit> {
     println("----0-----")
     val flow = simple()
     println("----1-----")
-    flow.collect { it-> println(it) }
+    flow.collect { it -> println(it) }
     println("-----2----")
-    flow.collect { it-> println(it) }
+    flow.collect { it -> println(it) }
 }
 
 /*
@@ -115,15 +152,16 @@ ThreadLocal.asContextElement     高级的使用 -> ThreadContextElement
 * */
 
 // 模拟android中  activity的 生命周期
-class Activity{
+class Activity {
     private val mainScope = CoroutineScope(Dispatchers.Default)
-    fun destroy(){
+    fun destroy() {
         mainScope.cancel()
     }
-    fun doSth(){
-        repeat(10) {i->
+
+    fun doSth() {
+        repeat(10) { i ->
             mainScope.launch {
-                delay((i+1)*200L)
+                delay((i + 1) * 200L)
                 println("coroutine $i is done")
             }
         }
@@ -165,8 +203,6 @@ fun main21() = runBlocking<Unit> {
         println("Im working in ${getThreadName()}")
     }
 }
-
-
 
 
 /*
