@@ -25,10 +25,52 @@ class AsyncKotlin {
 // 共享的可变状态与并发
 // select 实验性的
 
+
+/*
+缓冲  	反射和收集都费时  buffer
+合并  	处理最新的值 		收集器慢用conflate   取消重新发送collectLatest
+组合  	映射-zip   combine: zip是俩个流都变化了才操作  而combine是任意一个变化了就操作
+展平流	Flow<Flow<String>> -> 单个流
+					flatMapConcat  flattenConcat   顺序执行 拆成 Flow<String> 俩个一组的发
+					flatMapMerge   flattenMerge    并发执行 拆成 String  一个一个的发
+					flatMapLatest  拿最新的值
+* */
+
 /*fun main() = runBlocking<Unit> {
 
 }*/
 
+fun main() = runBlocking<Unit> {
+    val time = measureTimeMillis {
+        simple41()
+//            .conflate()  // 合并   跳过2  只输出 1 3
+            .collectLatest {
+                println("collect value $it")
+                delay(300)
+                println("Done")
+            }
+    }
+    println("time cost $time")
+}
+
+fun simple41(): Flow<Int> = flow {
+    for (i in 1..3) {
+        delay(100)
+        emit(i)
+    }
+}
+
+fun main41() = runBlocking<Unit> {
+    val time = measureTimeMillis {
+        simple41()
+            .buffer()  // 缓冲   避免等待发射  缓存起来了
+            .collect { value: Int ->
+                delay(300)
+                println(value)
+            }
+    }
+    println("time cost $time") //不用缓冲是1320  用了后是1151
+}
 
 
 /**
@@ -42,19 +84,19 @@ emit 发射  collect 收集    flow{} 构造块 代码可挂起  不带suspend �
 末端操作符	collect | toList toSet(转为集合) | first single(单个值) | reduce fold (规约到单个值)
 流是连续的	收集按顺序执行 从上游到下游每个操作符 最后交给末端操作符
 流上下文  	根据collect的context可推断emit的context  俩者必须一致  不允许从其他context中发射
-    例如长时间消耗cpu的需要在Dispatchers.Default  更新UI 需要在 Dispatchers.Main中执行
+例如长时间消耗cpu的需要在Dispatchers.Default  更新UI 需要在 Dispatchers.Main中执行
 flowOn操作符
-    更改流发射的上下文  创造了另一个协程
+更改流发射的上下文  创造了另一个协程
  */
 
-fun main() = runBlocking<Unit> {
+fun main35() = runBlocking<Unit> {
 //    simple2().collect{ value: Int ->  log("collect $value") }
 //    simple3().collect{ value: Int ->  log("collect $value") }
-    simple4().collect{ value: Int ->  log("collect $value") }
+    simple4().collect { value: Int -> log("collect $value") }
 }
 
-fun simple4():Flow<Int> = flow{
-    for(i in 1..3){
+fun simple4(): Flow<Int> = flow {
+    for (i in 1..3) {
         Thread.sleep(100)
         log("--emit---$i")
         emit(i)
@@ -62,9 +104,9 @@ fun simple4():Flow<Int> = flow{
 }.flowOn(Dispatchers.Default) // 在流构建器中改变消耗cpu 代码上下文的正确方式
 //原理:  收集在协程1  发射在协程2 和协程1在同一个线程 是并发关系   flowOn 操作符创建了另一个协程
 
-fun simple3():Flow<Int> = flow{
-    withContext(Dispatchers.Default){
-        for(i in 1..3){
+fun simple3(): Flow<Int> = flow {
+    withContext(Dispatchers.Default) {
+        for (i in 1..3) {
             Thread.sleep(100)
             log("--withcontext---")
             emit(i)
@@ -72,9 +114,9 @@ fun simple3():Flow<Int> = flow{
     }
 }
 
-fun simple2():Flow<Int> = flow{
+fun simple2(): Flow<Int> = flow {
     log("start simple flow")
-    for(i in 1..3) emit(i)
+    for (i in 1..3) emit(i)
 }
 
 fun <T> launchFlow(block: suspend () -> T): Flow<T> {
