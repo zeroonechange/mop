@@ -1,6 +1,7 @@
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.lang.ArithmeticException
+import kotlin.RuntimeException
 import kotlin.system.measureTimeMillis
 
 class AsyncKotlin {
@@ -25,6 +26,105 @@ class AsyncKotlin {
 // 共享的可变状态与并发
 // select 实验性的
 
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+/*fun main() = runBlocking<Unit> {
+
+}*/
+
+/*
+流异常
+	try-catch  在收集时使用 捕获异常后不再发送
+	catch操作符 对异常透明 {throw抛出去  将异常用emit发射出去  异常忽略  打印下日志}
+	声明式捕捉
+流完成
+	finally
+	onCompletion
+启动流
+	onEach 操作符  需搭配末端操作符collect使用  或者launchIn
+	launchIn 末端操作符
+让繁忙的流可取消   cancelable
+* */
+
+fun foo():Flow<Int> = flow{
+    for(i in 1..5){
+        println("emitting $i")
+        emit(i)
+    }
+}
+
+fun main() = runBlocking<Unit> {
+    /*foo().collect {
+        if(it == 3) cancel()
+        println(it)
+    }*/
+    (1..5).asFlow().cancellable().collect {
+        if(it==3) cancel()
+        println(it)
+    }
+}
+
+fun events(): Flow<Int> = (1..3).asFlow().onEach { delay(100) }
+fun main53() = runBlocking<Unit> {
+    events().onEach { println("event $it") }
+//        .collect()   // 会等待 一个一个的执行
+        .launchIn(this)  // 在单独的协程中执行  并发效果
+    println("done") // 是顺序的
+}
+
+
+fun simple52(): Flow<Int> = (1..3).asFlow()
+fun simple521(): Flow<Int> = flow {
+    emit(1)
+    throw RuntimeException()
+}
+
+fun main52() = runBlocking<Unit> {
+    /*simple52()
+        .onCompletion {  println("--finished done ok--") }
+        .collect {
+        println(it)
+    }*/
+    simple521().onCompletion { cause: Throwable? ->
+        if (cause != null) println("flow complete with exception")
+    }.catch { cause: Throwable ->
+        println("caught exception")
+    }.collect { println("collect $it") }
+}
+
+fun main51() = runBlocking<Unit> {
+    /*try {
+        simple51().collect {
+            check(it <= 1) { "collected $it" }
+            println(it)
+        }
+    } catch (e: Throwable) {
+        println("caught $e")
+    }*/
+
+    /* simple51().catch {
+         println("caught $this")
+     }.collect {
+         check(it <= 1) { "collected $it" }
+         println(it)
+     }*/
+
+    //声明捕捉   onEach 搭配 collect  把收集提前了额
+    simple51().onEach {
+        check(it <= 1) { "after check $it" }
+        println(it)
+    }.catch { e -> println("caught $e") }
+        .collect()
+}
+
+fun simple51(): Flow<Int> = flow {
+    for (i in 1..3) {
+        println("emitting $i")
+        emit(i)
+    }
+}
 
 /*
 缓冲  	反射和收集都费时  buffer
@@ -36,11 +136,28 @@ class AsyncKotlin {
 					flatMapLatest  拿最新的值
 * */
 
-/*fun main() = runBlocking<Unit> {
+fun main43() = runBlocking<Unit> {
+//    (1..3).asFlow().map { requestFlow(it) } // --> flow<flow<String>>
+    val st = System.currentTimeMillis()
+    (1..3).asFlow().onEach { delay(100) }
+//        .flatMapConcat {   // 1 first  1 second  2 first 2 second
+//        .flatMapMerge {   // 1 first 2 first 3 first 1 second
+        .flatMapLatest {   // 1 first 2 first 3 first 3 second -- finished
+            requestFlow(it)
+        }
+        .collect {
+            val time = System.currentTimeMillis() - st
+            println("$it at $time ms from start")
+        }
+}
 
-}*/
+fun requestFlow(i: Int): Flow<String> = flow {
+    emit("$i first")
+    delay(500)
+    emit("$i second")
+}
 
-fun main() = runBlocking<Unit> {
+fun main42() = runBlocking<Unit> {
     val time = measureTimeMillis {
         simple41()
 //            .conflate()  // 合并   跳过2  只输出 1 3
