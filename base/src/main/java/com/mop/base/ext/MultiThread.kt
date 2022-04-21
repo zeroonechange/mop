@@ -1,6 +1,10 @@
 package com.mop.base.ext
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -24,7 +28,25 @@ fun main21() = runBlocking {
 
 }
 
+fun CoroutineScope.produceNums() = produce<Int> {
+    var x=1
+    while(true) send(x++)
+}
+fun CoroutineScope.square(nums: ReceiveChannel<Int>): ReceiveChannel<Int> = produce {
+    for(x in nums) send(x*x)
+}
+
 fun main() = runBlocking {
+    val nums = produceNums()
+    val squares = square(nums)
+    repeat(5) {
+        println(squares.receive())
+    }
+    println("--done--")
+    coroutineContext.cancelChildren()
+}
+
+fun main2() = runBlocking {
     val channel = Channel<Int>()
     launch {
         for(x in 1..5) channel.send(x*x)
