@@ -11,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 class MultiThread {}
 
 
-
 /*
 通道  Channel   使单个值在多个协程中相互传输   在流中传输值的方法  和 BlockingQueue 非常相似
     send 和 receive
@@ -28,15 +27,37 @@ fun main21() = runBlocking {
 
 }
 
-fun CoroutineScope.produceNums() = produce<Int> {
-    var x=1
-    while(true) send(x++)
+//素数
+fun CoroutineScope.numsfrom(start: Int) = produce<Int> {
+    var x = start
+    while (true) send(x++) // 无限发射
 }
-fun CoroutineScope.square(nums: ReceiveChannel<Int>): ReceiveChannel<Int> = produce {
-    for(x in nums) send(x*x)
+
+fun CoroutineScope.filter(numb: ReceiveChannel<Int>, prime: Int) = produce<Int> {
+    for (x in numb) {
+        if (x % prime != 0) send(x)  //过滤  这个numb难以理解
+    }
 }
 
 fun main() = runBlocking {
+    var cur = numsfrom(2)
+    repeat(10){
+        val prime = cur.receive()
+        cur = filter(cur, prime)
+    }
+    coroutineContext.cancelChildren()
+}
+
+fun CoroutineScope.produceNums() = produce<Int> {
+    var x = 1
+    while (true) send(x++)
+}
+
+fun CoroutineScope.square(nums: ReceiveChannel<Int>): ReceiveChannel<Int> = produce {
+    for (x in nums) send(x * x)
+}
+
+fun main3() = runBlocking {
     val nums = produceNums()
     val squares = square(nums)
     repeat(5) {
@@ -49,11 +70,13 @@ fun main() = runBlocking {
 fun main2() = runBlocking {
     val channel = Channel<Int>()
     launch {
-        for(x in 1..5) channel.send(x*x)
+        for (x in 1..5) channel.send(x * x)
         channel.close()
     }
     repeat(6) { println(channel.receive()) } // close后还接受 会抛异常 ClosedReceiveChannelException
-    for(y in channel){ println(y) } //没有close 会阻塞  用for来接受元素
+    for (y in channel) {
+        println(y)
+    } //没有close 会阻塞  用for来接受元素
     println("---done---")
 }
 
@@ -61,9 +84,9 @@ fun main2() = runBlocking {
 fun main1() = runBlocking {
     val channel = Channel<Int>()
     launch {
-        for(x in 1..5) channel.send(x)
+        for (x in 1..5) channel.send(x)
     }
-    repeat(2){ println("qifenle" + channel.receive()) } //阻塞的 如果没有接收到的话
-    repeat(3){ println("meiyoua" + channel.receive()) }
+    repeat(2) { println("qifenle" + channel.receive()) } //阻塞的 如果没有接收到的话
+    repeat(3) { println("meiyoua" + channel.receive()) }
     println("---done---")
 }
