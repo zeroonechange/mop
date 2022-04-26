@@ -34,6 +34,10 @@ class AsyncKotlin {
 
 }*/
 
+
+
+
+
 /*
 流异常
 	try-catch  在收集时使用 捕获异常后不再发送
@@ -297,6 +301,7 @@ fun main31() = runBlocking<Unit> {
     println("-----2----")
     flow.collect { it -> println(it) }
 }
+
 
 /*
 命名协程以调试
