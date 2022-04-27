@@ -13,6 +13,29 @@ fun main21() = runBlocking {
 }
 
 /*
+共享的可变状态与并发
+	同步访问共享的可变状态  独一无二的解决方案
+
+	线程安全的数据结构   AtomicInteger.incrementAndGet() 适用于普通计数器、集合、队列和其他标准数据结构以及它们的基本操作。然而，它并不容易被扩展来应对复杂状态、或一些没有现成的线程安全实现的复杂操作。
+
+	以细粒度限制线程  限制在单个线程中   例如只能在UI线程更新内容
+	以粗粒度限制线程  在单个线程中并发多个协程
+
+互斥
+	synchronized 或者 ReentrantLock
+	在kotlin中 替代品叫 Mutex: lock 和 unlock 方法     锁是细粒度的 会付出一些代价
+	lock() 是个挂起函数  不会阻塞线程
+	或者  withLock 扩展函数 mutex.lock(); try{...}finally{ mutex.unlock();}
+
+	Actors
+		由协程、 被限制并封装到该协程中的状态以及一个与其它协程通信的 通道组合而成的⼀个实体。
+		一个简单的 actor 可以简单的写成一个函数， 但是一个拥有复杂状态的 actor 更适合由类来表示
+		actor协程构建器  通道 组合 发送  消息类-密封类
+		actor 在高负载下比锁更有效，因为在这种情况下它总是有工作要做，而且根本不需要切换到不同的上下文
+* */
+
+
+/*
 协程异常处理
     自动传播 launch  actor    未捕获异常 类似 Thread.uncaughtExceptionHandler
     用户暴露 async   produce  通过await或receive 来消费异常
@@ -26,6 +49,64 @@ CoroutineExceptionHandler  ==  GlobalScope.launch(handler) { }
 
 fun main() = runBlocking {
     val handler = CoroutineExceptionHandler { _, e ->
+        println("--- 0 ---$e")
+    }
+    supervisorScope {
+        val child = launch(handler) {
+            println("--- 1 ---")
+            throw AssertionError()
+        }
+        println("--- 2 ---")
+    }
+    println("--- 3 ---")  // 2 1 0 3
+}
+
+fun mainc7() = runBlocking {
+    try {
+        supervisorScope {
+            val child = launch {
+                try {
+                    println("--- 0 ---")
+                    delay(Long.MAX_VALUE)
+                } finally {
+                    println("--- 1 ---")
+                }
+            }
+            yield()
+            println("--- 2 ---")
+            throw AssertionError()
+        }
+    } catch (e: AssertionError) {
+        println("--- 3 ---$e")
+    } // 0 2 1 3
+}
+
+fun mainc6() = runBlocking {
+    val supervisor = SupervisorJob()
+    with(CoroutineScope(coroutineContext + supervisor)) {
+        val first = launch(CoroutineExceptionHandler { _, _ -> }) {
+            println("--- 0 ---")
+            throw AssertionError("---1---")
+        }
+        val second = launch {
+//          first.join()
+            println("--- 2 ---")
+            try {
+                delay(Long.MAX_VALUE)
+            } finally {
+                println("--- 3 ---")
+            }
+        }
+        first.join()
+        println("--- 4 ---")
+        supervisor.cancel()
+        second.join() // 0 2 4 3   为什么第二个还没join 就跑起来了 俩都不join  4 0 2  好家伙 自动run的
+    }
+}
+
+
+fun mainc5() = runBlocking {
+    val handler = CoroutineExceptionHandler { _, e ->
         println("---  $e --- ")
     }
     val job = GlobalScope.launch(handler) {
@@ -36,9 +117,9 @@ fun main() = runBlocking {
                 }
             }
         }
-        try{
+        try {
             innder.join()
-        }catch (e:CancellationException){
+        } catch (e: CancellationException) {
             println("---0--")
             throw e
         }
@@ -47,15 +128,15 @@ fun main() = runBlocking {
 }
 
 fun mainc4() = runBlocking {
-    val handler = CoroutineExceptionHandler{_, e->
+    val handler = CoroutineExceptionHandler { _, e ->
         println("---  $e ---  ${e.suppressed[0]}")
     }
     val job = GlobalScope.launch(handler) {
         launch {
             try {
                 delay(Long.MAX_VALUE)
-            }finally {
-                withContext(NonCancellable){
+            } finally {
+                withContext(NonCancellable) {
                     println("---- 1 --- ")
                     delay(100)
                     println("---- 2 --- ")
@@ -75,10 +156,10 @@ fun mainc4() = runBlocking {
 fun mainc3() = runBlocking {
     val job = launch {
         val child = launch {
-            try{
+            try {
                 println("--- 00 --- ")
                 delay(Long.MAX_VALUE)
-            }finally {
+            } finally {
                 println("--- 0 --- ")
             }
         }
@@ -93,10 +174,10 @@ fun mainc3() = runBlocking {
 }
 
 fun mainc2() = runBlocking {
-    val handler = CoroutineExceptionHandler{ _, e->
+    val handler = CoroutineExceptionHandler { _, e ->
         println("---- $e ----")
     }
-    val job = GlobalScope.launch(handler){
+    val job = GlobalScope.launch(handler) {
         throw AssertionError()
     }
     val deffer = GlobalScope.async(handler) {
@@ -119,7 +200,7 @@ fun mainc1() = runBlocking {
     try {
         deffer.await()
         println("-----3-----")
-    }catch (e:Exception){
+    } catch (e: Exception) {
         println("-----4-----")
     }
 }
@@ -141,22 +222,22 @@ fun mainc1() = runBlocking {
 //计时器通道
 fun main9() = runBlocking {
     val tickerChannel = ticker(delayMillis = 100, initialDelayMillis = 0)
-    var nextElement = withTimeoutOrNull(1){ tickerChannel.receive() }
+    var nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
     println("-------0-------- $nextElement ")
 
-    nextElement = withTimeoutOrNull(50){ tickerChannel.receive() }
+    nextElement = withTimeoutOrNull(50) { tickerChannel.receive() }
     println("-------1-------- $nextElement ")
 
-    nextElement = withTimeoutOrNull(60){ tickerChannel.receive() }
+    nextElement = withTimeoutOrNull(60) { tickerChannel.receive() }
     println("-------2-------- $nextElement ")
 
     println("######################")
     delay(150)
 
-    nextElement = withTimeoutOrNull(1){ tickerChannel.receive() }
+    nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
     println("-------3-------- $nextElement ")
 
-    nextElement = withTimeoutOrNull(60){ tickerChannel.receive() }
+    nextElement = withTimeoutOrNull(60) { tickerChannel.receive() }
     println("-------4-------- $nextElement ")
 
     tickerChannel.cancel()
@@ -165,8 +246,9 @@ fun main9() = runBlocking {
 
 
 data class Ball(var hits: Int)
-suspend fun player(name: String, table: Channel<Ball>){
-    for(ball in table){
+
+suspend fun player(name: String, table: Channel<Ball>) {
+    for (ball in table) {
         ball.hits++
         println("$name $ball")
         delay(300)
@@ -188,7 +270,7 @@ fun main8() = runBlocking {
 fun main7() = runBlocking {
     val channel = Channel<Int>(4)
     val sender = launch {
-        repeat(10){
+        repeat(10) {
             println("--before sending--- $it")
             channel.send(it)  // 前四个元素被加入到了缓冲区且发送 试图发射第五个时被挂起
         }
@@ -198,8 +280,8 @@ fun main7() = runBlocking {
 }
 
 //扇入
-suspend fun sendStr(channel: SendChannel<String>, s: String, time: Long){
-    while(true){
+suspend fun sendStr(channel: SendChannel<String>, s: String, time: Long) {
+    while (true) {
         delay(time)
         channel.send(s)
     }
@@ -209,27 +291,27 @@ fun main6() = runBlocking {
     val channel = Channel<String>()
     launch { sendStr(channel, "father", 200L) }
     launch { sendStr(channel, "son", 500L) }
-    repeat(6){ println(channel.receive()) }
+    repeat(6) { println(channel.receive()) }
     coroutineContext.cancelChildren()
 }
 
 // 扇出
 fun CoroutineScope.produceNum() = produce<Int> {
     var x = 1
-    while(true) {
+    while (true) {
         send(x++)
         delay(100)
     }
 }
 
 fun CoroutineScope.launchProcess(id: Int, channel: ReceiveChannel<Int>) = launch {
-    for(msg in channel)
+    for (msg in channel)
         println("processor #$id received $msg")
 }
 
 fun main5() = runBlocking {
     val producer = produceNum()
-    repeat(5){ launchProcess(it, producer) }
+    repeat(5) { launchProcess(it, producer) }
     delay(950)
     producer.cancel()
 }
@@ -265,7 +347,7 @@ fun CoroutineScope.filter(numb: ReceiveChannel<Int>, prime: Int) = produce<Int> 
 
 fun main4() = runBlocking {
     var cur = numsfrom(2)
-    repeat(10){
+    repeat(10) {
         val prime = cur.receive()
         cur = filter(cur, prime)
     }
