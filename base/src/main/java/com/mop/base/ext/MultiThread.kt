@@ -2,8 +2,12 @@ package com.mop.base.ext
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.IOException
 import java.lang.Exception
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.measureTimeMillis
 
 class MultiThread {}
 
@@ -35,6 +39,117 @@ fun main21() = runBlocking {
 * */
 
 
+sealed class CounterMsg   //  密封类  可以用来做类型  枚举那种的
+object IncCounter : CounterMsg() // 递增计数器的单向消息
+class GetCounter(val response: CompletableDeferred<Int>) : CounterMsg() //携带回复的信息
+
+fun CoroutineScope.counterActor() = actor<CounterMsg> {
+    var counter = 0 //状态
+    for (msg in channel) { // 即将到来消息的迭代器
+        when (msg) {
+            is IncCounter -> counter++
+            is GetCounter -> msg.response.complete(counter)
+        }
+    }
+}
+
+/**
+ * 看源码注释  容易懂  mailbox channel sendChannel
+ *
+ * 只能靠发消息来执行操作  发消息 累加  发消息获取结果
+ * actor是一个协程  协程是按顺序执行的  将状态限制到特定协程可以解决共享可变状态问题
+ * 在高负载下比锁更有用  总是有工作要做  不要切换到上下文
+ * 和 rabbitMQ一样的东西  队列
+ *
+ * actor 协程构建器是一个双重的 produce协程构建器
+ * 一个actor与它接收消息的通道相关联 而一个producer与它发送元素的通道相关联
+ */
+fun main() = runBlocking<Unit> {
+    val counter = counterActor()
+    withContext(Dispatchers.Default) {
+        massiveRun {
+            counter.send(IncCounter)
+        }
+    }
+    val response = CompletableDeferred<Int>() // 发送一条消息 用来从一个 actor中获取数值
+    counter.send(GetCounter(response))
+    println("--- ${response.await()} ---")
+    counter.close()
+}
+
+
+val mutex = Mutex()
+var counter5 = 0
+fun mainv5() = runBlocking {
+    withContext(Dispatchers.Default) {
+        massiveRun {
+            mutex.withLock {
+                counter5++
+            }
+        }
+    }
+    println("--- $counter5 ---")
+}
+
+fun mainv4() = runBlocking {
+    withContext(Dispatchers.Default) {
+        withContext(counterCxt) {  //不需要从Dispatchers.Default切到单线程上下文
+            massiveRun {
+                counter3++
+            }
+        }
+    }
+    println("--- $counter3 ---") // 刚好 100*1000
+}
+
+val counterCxt = newSingleThreadContext("CounterCxt")
+var counter3 = 0
+fun mainv3() = runBlocking {
+    withContext(Dispatchers.Default) {
+        massiveRun {
+            withContext(counterCxt) {  //每次都需要从Dispatchers.Default切到单线程上下文
+                counter3++
+            }
+        }
+    }
+    println("--- $counter3 ---") // 刚好 100*1000  但是耗时
+}
+
+// 原子操作  简单应用
+var counter2 = AtomicInteger()
+fun mainv2() = runBlocking {
+    withContext(Dispatchers.Default) {
+        massiveRun {
+            counter2.getAndIncrement()
+        }
+    }
+    println("--- $counter2 ---") // 刚好 100*1000
+}
+
+@Volatile
+var counter1 = 0
+fun mainv1() = runBlocking {
+    withContext(Dispatchers.Default) {
+        massiveRun {
+            counter1++
+        }
+    }
+    println("--- $counter1 ---")  // 88570   加了volidate是 94084
+}
+
+suspend fun massiveRun(action: suspend () -> Unit) {
+    val n = 100
+    val k = 1000
+    val time = measureTimeMillis {
+        coroutineScope {
+            repeat(n) {
+                launch { repeat(k) { action() } }
+            }
+        }
+    }
+    println("--- massiveRun finished ---")
+}
+
 /*
 协程异常处理
     自动传播 launch  actor    未捕获异常 类似 Thread.uncaughtExceptionHandler
@@ -47,7 +162,7 @@ CoroutineExceptionHandler  ==  GlobalScope.launch(handler) { }
         这个异常处理有点特殊  在内部就设置了 CoroutineExceptionHandler
 * */
 
-fun main() = runBlocking {
+fun mainc8() = runBlocking {
     val handler = CoroutineExceptionHandler { _, e ->
         println("--- 0 ---$e")
     }
