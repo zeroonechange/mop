@@ -2,11 +2,13 @@ package com.mop.base.ext
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.IOException
 import java.lang.Exception
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random
 import kotlin.system.measureTimeMillis
 
 class MultiThread {}
@@ -15,6 +17,88 @@ class MultiThread {}
 fun main21() = runBlocking {
 
 }
+
+/*
+select 表达式  俩个发送  一个处理
+学不会 有点难呢  后面再弄吧  高级通道使用教程
+* */
+
+fun CoroutineScope.asyncString(time: Int) = async {
+    delay(time.toLong())
+    "waited for $time ms"
+}
+fun CoroutineScope.asyncStringList(): List<Deferred<String>>{
+    val random = Random(3)
+    return List(12) {asyncString(random.nextInt(1000))} //尼玛的还能这么写
+}
+
+fun main() = runBlocking<Unit> {
+    val list = asyncStringList()
+    val result = select<String> {
+        list.withIndex().forEach{ (index, deferred) ->
+            deferred.onAwait{ answer->
+                "deferred $index produced answer $answer"
+            }
+        }
+    }
+    println(result)
+    val countAct = list.count { it.isActive }
+    println("$countAct coroutines are still alive")
+
+}
+
+
+
+fun CoroutineScope.produceNums(sid: SendChannel<Int>) = produce<Int> {
+    for(num in 1..10){
+        delay(100)
+        select<Unit> {
+            onSend(num){ } //
+            sid.onSend(num) {}
+        }
+    }
+}
+// 一下子发 主通道  忙不过来 select自动选择 副通道去发送了
+fun mainb2() = runBlocking<Unit> {
+    val side = Channel<Int>()
+    launch {
+        side.consumeEach { println("---side consume $it ---") }
+    }
+    produceNums(side).consumeEach {
+        println("---consume $it ---")
+        delay(250)
+    }
+    println("---done---")
+    coroutineContext.cancelChildren()
+}
+
+
+
+fun CoroutineScope.fizz() = produce<String> {
+    while(true){
+        delay(300)
+        send("fizz")
+    }
+}
+fun CoroutineScope.buzz() = produce<String> {
+    while(true){
+        delay(500)
+        send("buzz")
+    }
+}
+
+fun mainb1() = runBlocking<Unit> {
+    val fizz = fizz()
+    val buzz = buzz()
+    repeat(7){
+        select<Unit> {
+            fizz.onReceive{ println("---fizz---$it") }
+            buzz.onReceive{ println("---buzz---$it") }
+        }
+    }
+    coroutineContext.cancelChildren()
+}
+
 
 /*
 共享的可变状态与并发
@@ -48,7 +132,7 @@ fun CoroutineScope.counterActor() = actor<CounterMsg> {
     for (msg in channel) { // 即将到来消息的迭代器
         when (msg) {
             is IncCounter -> counter++
-            is GetCounter -> msg.response.complete(counter)
+            is GetCounter -> msg.response.complete(counter) // 类似回调
         }
     }
 }
@@ -64,7 +148,7 @@ fun CoroutineScope.counterActor() = actor<CounterMsg> {
  * actor 协程构建器是一个双重的 produce协程构建器
  * 一个actor与它接收消息的通道相关联 而一个producer与它发送元素的通道相关联
  */
-fun main() = runBlocking<Unit> {
+fun mainv6() = runBlocking<Unit> {
     val counter = counterActor()
     withContext(Dispatchers.Default) {
         massiveRun {
