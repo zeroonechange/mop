@@ -4,9 +4,7 @@ import java.lang.ArithmeticException
 import kotlin.RuntimeException
 import kotlin.system.measureTimeMillis
 
-class AsyncKotlin {
-
-}
+class AsyncKotlin {}
 
 // 异步程序设计    线程  回调 future，promise   反应式扩展   协程
 // 线程需要昂贵的上下⽂切换  线程数受底层操作系统的限制
@@ -26,17 +24,32 @@ class AsyncKotlin {
 // 共享的可变状态与并发
 // select 实验性的
 
-/*fun main() = runBlocking<Unit> {
+/**
+suspend
+runBlocking
+coroutineScope {}
+GlobalScope.launch {}
+launch(Dispatchers.Unconfined){}
+launch(Dispatchers.Default) {}
+launch(newSingleThreadContext("myOwnThread")) {}
+withTimeout(60) {}
+withTimeoutOrNull(1300L) {}
+withContext(NonCancellable) {}
+val one = async(start = CoroutineStart.LAZY) { doSthOne() }    one.await()
+async(CoroutineName("v2 core")) {}
+launch(Dispatchers.Unconfined + CoroutineName("my-name-SpiderMan")) {}
 
-}*/
+flow { emit(1) }.flowOn(Dispatchers.Default)
+.onCompletion        .onCompletion
+.filter   .map    .transform   .reduce
+.buffer()
+.take     .conflate()
+.collect    .collectLatest  .flatMapConcat   .flatMapMerge  .flatMapLatest
+.check
+.onEach   .launchIn
 
-/*fun main() = runBlocking<Unit> {
-
-}*/
-
-
-
-
+try-catch  finally  onCompletion
+ */
 
 /*
 流异常
@@ -131,7 +144,7 @@ fun simple51(): Flow<Int> = flow {
 }
 
 /*
-缓冲  	反射和收集都费时  buffer
+缓冲  	发射和收集都费时  buffer
 合并  	处理最新的值 		收集器慢用conflate   取消重新发送collectLatest
 组合  	映射-zip   combine: zip是俩个流都变化了才操作  而combine是任意一个变化了就操作
 展平流	Flow<Flow<String>> -> 单个流
