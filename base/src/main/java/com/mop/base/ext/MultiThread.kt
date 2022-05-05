@@ -18,6 +18,37 @@ fun main21() = runBlocking {
 
 }
 
+/**
+val channel = Channel<Int>() launch{ channel.send(x) }  -> launch{ channel.receive()  channel.close()  }
+ReceiveChannel<Int> = produce<Int> { }
+
+interface Channel<E> : SendChannel<E>, ReceiveChannel<E>
+CoroutineScope.produce() : ReceiveChannel<E> {}
+
+val tickerChannel = ticker(delayMillis = 100, initialDelayMillis = 0)
+withTimeoutOrNull(50) { tickerChannel.receive() }
+
+yield  join  joinAll  cancel   CoroutineScope  supervisorScope
+
+val handler = CoroutineExceptionHandler { _, e ->      }
+with(CoroutineScope(coroutineContext + supervisor)) { }
+
+AtomicInteger().getAndIncrement()
+Mutex().withLock {    }
+
+val response = CompletableDeferred<Int>()
+actor<CounterMsg> {  response.complete(counter) }
+-> .send(IncCounter)
+-> .send(GetCounter(response))
+-> CompletableDeferred.await()
+
+select{
+produce<String> {}.onReceive{}
+produce<Int> {}.onReceive{}
+}
+
+ */
+
 /*
 select 表达式  俩个发送  一个处理
 学不会 有点难呢  后面再弄吧  高级通道使用教程
@@ -44,7 +75,6 @@ fun main() = runBlocking<Unit> {
     println(result)
     val countAct = list.count { it.isActive }
     println("$countAct coroutines are still alive")
-
 }
 
 
@@ -527,7 +557,7 @@ fun main5() = runBlocking {
     素数例子 produce{ send } -> produce{ filter and send }
 
     通道和管道的区别：
-        通道 channel 和 blockingueue一样  send和receive
+        通道 channel 和 blockingueue 一样  send 和 receive
         管道 produce-send  可以 传递 Receivechannel-produce  类似于 map-filter 加多个处理方式
 */
 
