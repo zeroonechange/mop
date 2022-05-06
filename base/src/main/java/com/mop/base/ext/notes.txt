@@ -53,3 +53,46 @@ Gradle核心思想（二）Gradle入门前奏
 	可以看到hello任务的路径、类型、描述和分组。
 
 
+Gradle核心思想（三）Groovy快速入门指南
+	Groovy是Apache旗下的一种基于JVM的面向对象编程语言，既可以用于面向对象编程，也可以用作纯粹的脚本语言。在语言的设计上它吸纳了Python、Ruby 和 Smalltalk 语言的优秀特性，比如动态类型转换、闭包和元编程支持。
+	用def关键字来定义变量和方法
+	如果指定了方法返回类型，可以不需要def关键字来定义方法。
+	如果不使用return ，方法的返回值为最后一行代码的执行结果。
+	Groovy中有很多省略的地方
+	Groovy类非常类似于Java类。
+	Groovy类与Java类有以下的区别： 默认类的修饰符为public。 没有可见性修饰符的字段会自动生成对应的setter和getter方法。 类不需要与它的源文件有相同的名称，但还是建议采用相同的名称。
+	Groovy断言和Java断言不同，它一直处于开启状态，是进行单元测试的首选方式。
+	当断言的条件为false时，程序会抛出异常，不再执行下面的代码
+	Groovy支持Java的for(int i=0;i<N;i++)和for(int i :array)形式的循环语句，另外还支持for in loop形式，支持遍历范围、列表、Map、数组和字符串等多种类型。
+	Groovy中的Switch语句不仅兼容Java代码，还可以处理更多类型的case表达式。
+	case表达式可以是字符串、列表、范围、Integer等等
+	Groovy中的数据类型主要有以下几种： Java中的基本数据类型 Groovy中的容器类 闭包
+	在Groovy种有两种字符串类型，普通字符串String（java.lang.String）和插值字符串GString（groovy.lang.GString）
+	String是不可变的，GString却是可变的，GString和String即使有相同的字面量，它们的hashCodes的值也可能不同，因此应该避免使用使用GString作为Map的key。
+	单引号字符串  在Groovy中单引号字符串和双引号字符串都可以定义一个字符串常量，只不过单引号字符串不支持插值。
+	要想插值可以使用双引号字符串，插值指的是替换字符串中的占位符，占位符表达式为${}或者以$为前缀。
+	三引号字符串可以保留文本的换行和缩进格式，不支持插值。
+	Groovy没有定义自己的集合类，它在Java集合类的基础上进行了增强和简化。Groovy的List对应Java中的List接口，默认的实现类为Java中的ArrayList。
+	创建Map同样使用[]，需要同时指定键和值，默认的实现类为java.util.LinkedHashMap。
+	Groovy中的闭包是一个开放的、匿名的、可以接受参数和返回值的代码块。
+	{ [closureParameters -> ] statements }
+	参数列表部分[closureParameters -> ]和语句部分 statements 。
+	I/O 操作符   文件读取    文件写入
+	asType可以用于数据类型转换
+	判断是否为真     if (name) {}
+	Groovy中可以使用？.来安全的取值：
+	with操作符    对同一个对象的属性进行赋值
+
+
+
+
+
+
+
+
+
+
+
+
+
+
