@@ -31,3 +31,25 @@ Gradle核心思想（一）为什么现在要用Gradle？
 	Gradle显然无法满足所有企业级构建的所有要求，但是可以通过Hook Gradle的生命周期，来监控和配置构建脚本。
 	Gradle是一个开源的项目
 
+
+Gradle核心思想（二）Gradle入门前奏
+	安装Gradle前要确保系统已经配置好JDK的环境
+	实现Hello World
+	task（任务）和action(动作)是Gradle的重要元素
+	task代表一个独立的原子性操作，比如复制一个文件，编译一次Java代码，这里我们简单的定义一个名为hello的任务。
+	doLast 代表task执行的最后一个action，通俗来讲就是task执行完毕后会回调doLast中的代码，在上面这个例子中就会打印 ‘Hello world!’
+	操作符<< 是doLast方法的快捷版本
+	Gradle的任务，包括创建任务、任务依赖、 动态定义任务和任务的分组和描述
+	创建任务
+	1.直接用任务名称创建。
+	2.任务名称+任务配置创建。
+	3.TaskContainer的create方法创建。
+	任务依赖会决定任务运行的先后顺序，被依赖的任务会在定义依赖的任务之前执行。
+	动态定义任务指的是在运行时来定义任务的名称
+	Gradle有任务组的概念，可以为任务配置分组和描述，以便于更好的管理任务，拥有良好的可读性。
+	Gradle日志级别
+	gradle -q tasks命令来获取所有的任务信息
+	gradle -q help --task hello命令来显示hello任务的帮助信息
+	可以看到hello任务的路径、类型、描述和分组。
+
+
