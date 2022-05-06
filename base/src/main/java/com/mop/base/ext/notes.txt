@@ -1,0 +1,33 @@
+
+序
+	Android Studio 构建系统以 Gradle 为基础
+	Android Gradle 插件    AGP plugin
+	可独立于 Android Studio 运行并单独更新
+	Android 插件 DSL 参考文档
+	Gradle DSL 参考文档
+	各个 Android Gradle 插件版本所需的 Gradle 版本
+	指定 Gradle 版本
+	在 gradle/wrapper/gradle-wrapper.properties 文件中修改 Gradle 分发引用来指定
+
+Gradle核心思想（一）为什么现在要用Gradle？
+	基于JVM的新一代构建工具
+	构建系统、插件化、热修复和组件化等等
+	节省了开发的时间并减少错误
+	完成代码的编译、测试和打包等工作
+	不同操作系统的限制
+	APK的构建过程
+	AAPT(Android Asset Packaging Tool)打包res资源文件
+	AIDL工具会将所有的aidl接口转化为对应的Java接口
+	所有的Java代码，包括R.java和Java接口都会被Java编译器编译成.class文件
+	生成的.class文件、第三库和其他.class文件编译成.dex文件
+	编译生成的.dex文件、编译过的资源、无需编译的资源（如图片等）会被ApkBuilder工具打包成APK文件
+	使用Debug Keystore或者Release Keystore对上一步生成的APK文件进行签名。
+	对APK正式签名，还需要使用zipalign工具对APK进行对齐操作，这样应用运行时会减少内存的开销
+	在Gradle出现之前，有三个基于Java的构建工具：Ant、Gant和Maven
+	Gradle可以使用Groovy来实现构建脚本，Groovy 是基于Jvm一种动态语言，它的语法和Java非常相似并兼容Java，因此你无需担心学习Groovy的成本。Groovy在Java的基础上增加了很多动态类型和灵活的特性，比起XML，Gradle更具有表达性和可读性。
+	可配置的可靠的依赖管理方案
+	为构建你的项目提供引导和默认值
+	Gradle Wrapper是对Gradle 的包装，它的作用是简化Gradle本身的下载、安装和构建，比如它会在我们没有安装Gradle的情况下，去下载指定版本的Gradle并进行构建。Gradle的版本很多，所以有可能出现版本兼容的问题，这时就需要Gradle Wrapper去统一Gradle的版本，避免开发团队因为Gradle版本不一致而产生问题。
+	Gradle显然无法满足所有企业级构建的所有要求，但是可以通过Hook Gradle的生命周期，来监控和配置构建脚本。
+	Gradle是一个开源的项目
+
