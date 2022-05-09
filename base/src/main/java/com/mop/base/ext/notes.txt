@@ -110,13 +110,12 @@ Gradle核心思想（五）通俗易懂的Gradle插件讲解
 	为项目中的核心对象和其他插件的对象添加拓展类型。
 
 
-
-
-
-
-
-
-
-
+Gradle核心思想（六）自定义Gradle插件的三种方式
+	自定义Gradle插件主要有三种方式，分别是build.gradle中编写、buildSrc工程项目中编写、独立项目中编写。
+	1.build.gradle对象插件是实现了org.gradle.api.plugins接口的插件，这个接口中只定义个一个简单的apply方法，想要实现自定义插件就需要去实现org.gradle.api.plugins接口。
+	2.buildSrc工程项目除了在build.gradle中编写的自定义插件，还可以将插件的源代码放在rootProjectDir/buildSrc/src/main/groovy目录中，Gradle会自动识别来完成编译和测试。
+	3.独立项目无论是在build.gradle中编写自定义插件，还是buildSrc项目中编写自定义插件，都只能在自己的项目中进行使用。如果想要分享给其他人或者自己用，可以在一个独立的项目中编写插件，这个项目会生成一个包含插件类的JAR文件，有了JAR文件就很容易进行分享了。
+	上传插件
+	将自定义插件发布到Gradle插件门户上，就可以使用插件DSL了
 
 
