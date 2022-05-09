@@ -1,4 +1,54 @@
 
+================================================================================================================================
+
+Android Gradle （一）Gradle的Android插件入门
+	Gradle有很多插件，为了支持Android项目的构建，谷歌为Gradle编写了Android插件，新的Android构建系统就是由Gradle的Android插件组成的，Gradle是一个高级构建工具包，它管理依赖项并允许开发者自定义构建逻辑。Android Studio使用Gradle wrapper来集成Gradle的Android插件。需要注意的是，Gradle的Android插件也可以独立于AndroidStudio运行。
+	代码和资源易于重用 无论是针对多个apk发行版还是针对不同风格的应用程序，都可以很容易创建应用程序的多个不同版本。 易于配置、扩展和自定义构建过程 良好的IDE集成
+
+	项目build.gradle  模块build.gradle   gradle-wrapper.properties  
+	gradle.properties   settings.gradle  local.properties
+	compileSdkVersion：配置编译该模块的SDK版本
+	buildToolsVersion：Android构建工具的版本
+	targetSdkVersion 基于哪个SDK版本开发
+
+		buildTypes块用于配置构建不同类型的APK。
+		buildTypes块还可以配置很多属性，常用的配置如下所示。
+		shrinkResources 是否自动清理未使用的资源，默认值为false 
+		zipAlignEnabled 是否开启开启zipalign优化，提高apk运行效率 
+		proguardFile ProGuard混淆所使用的ProGuard配置文件 
+		proguardFiles 同事配置多个ProGuard配置文件 
+		signingConfig 配置默认的签名信息 
+		multiDexEnabled 是否启用自动拆分多个Dex的功能
+
+		sourceSets 配置目录指向 
+		productFlavors 多个渠道配置 
+		lintOptions Lint配置 
+		dexOptions DEX工具配置 
+		adbOptions adb配置 
+		packagingOptions 打包时的相关配置
+	全局配置 
+		使用ext块配置
+		使用config.gradle配置
+
+
+Android Gradle （二）签名配置和依赖管理
+	Gradle的依赖传递
+		重复依赖、依赖错误等问题，那么我们可以通过transitive来禁止依赖传递
+	依赖检查
+		执行gradle :app:dependencies
+		Android Studio中的右侧的Gradle面板，找到app模块，展开后找到help目录中的dependencies
+		使用Gradle View插件
+			选择View-–>Tools Windows–Gradle View，这时就可以在AS的底部发现Gradle View窗口，里面会显示当前项目的所有依赖树
+	强制使用统一的库的版本，force可以强制设置模块的库的版本
+	排除库依赖传递中涉及的库，此时不能靠关闭依赖传递来解决问题，这时可以使用exclude
+
+
+
+
+================================================================================================================================
+
+all comes from  http://liuwangshu.cn/tags/Gradle%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/ 
+
 序
 	Android Studio 构建系统以 Gradle 为基础
 	Android Gradle 插件    AGP plugin
@@ -117,5 +167,4 @@ Gradle核心思想（六）自定义Gradle插件的三种方式
 	3.独立项目无论是在build.gradle中编写自定义插件，还是buildSrc项目中编写自定义插件，都只能在自己的项目中进行使用。如果想要分享给其他人或者自己用，可以在一个独立的项目中编写插件，这个项目会生成一个包含插件类的JAR文件，有了JAR文件就很容易进行分享了。
 	上传插件
 	将自定义插件发布到Gradle插件门户上，就可以使用插件DSL了
-
 
