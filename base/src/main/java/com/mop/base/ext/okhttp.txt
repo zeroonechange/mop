@@ -1,0 +1,274 @@
+
+OkHttpClient
+	Dispatcher   任务调度器，控制并发的请求
+	ConnectionPool 连接池
+	Interceptor 拦截器
+	EventListener	事件监听工厂
+	retryOnConnectionFailure  
+	followRedirects 	是否跟随重定向
+	followSslRedirects 	是否跟随ssl重定向
+	CookieJar  	定制Cookie
+	Cache	磁盘缓存
+	Dns 	
+	Proxy
+	proxySelector	代理选择器
+	callTimeout 
+	connectTimeout 
+	readTimeout
+	writeTimeout 
+	pingInterval  ping的间隔时长
+
+
+
+发起请求
+	override fun newCall(request: Request): Call = RealCall(this, request, forWebSocket = false)
+
+
+
+Dispatcher任务调度		控制并发的请求 无论同步请求和异步请求
+	maxRequests = 64  		最大任务请求数
+	maxRequestsPerHost = 5	每个主机的最大任务请求数
+	ExecutorService			执行异步请求的线程池
+	readyAsyncCalls = ArrayDeque<AsyncCall>()	准备运行的异步请求队列
+	runningAsyncCalls = ArrayDeque<AsyncCall>()	正在运行的异步请求队列
+	runningSyncCalls = ArrayDeque<RealCall>()	正在运行的同步请求队列
+	构造方法 设定线程池
+	
+	constructor(executorService: ExecutorService) : this() {
+	  this.executorServiceOrNull = executorService
+	}
+
+	@get:JvmName("executorService") val executorService: ExecutorService
+	get() {
+		if (executorServiceOrNull == null) {
+		  executorServiceOrNull = ThreadPoolExecutor(0, Int.MAX_VALUE, 60, TimeUnit.SECONDS,
+			  SynchronousQueue(), threadFactory("$okHttpName Dispatcher", false))
+		}
+	return executorServiceOrNull!!
+	}
+	
+
+
+异步请求	RealCall.kt
+	override fun enqueue(responseCallback: Callback) {
+	  synchronized(this) {
+		check(!executed) { "Already Executed" }//1
+		executed = true
+	  }
+	  callStart()
+	  client.dispatcher.enqueue(AsyncCall(responseCallback))//2
+	}
+
+	Dispatcher.kt	
+	internal fun enqueue(call: AsyncCall) {
+	  synchronized(this) {
+		readyAsyncCalls.add(call)//1
+		if (!call.call.forWebSocket) {
+		  val existingCall = findExistingCallWithHost(call.host)
+		  if (existingCall != null) call.reuseCallsPerHostFrom(existingCall)
+		}
+	  }
+	  promoteAndExecute()
+	}
+	
+	private fun promoteAndExecute(): Boolean {
+	  this.assertThreadDoesntHoldLock()
+
+	  val executableCalls = mutableListOf<AsyncCall>()
+	  val isRunning: Boolean
+	  synchronized(this) {
+		val i = readyAsyncCalls.iterator()
+		while (i.hasNext()) {
+		  val asyncCall = i.next()
+
+		  if (runningAsyncCalls.size >= this.maxRequests) break //1
+		  if (asyncCall.callsPerHost.get() >= this.maxRequestsPerHost) continue //2
+		  i.remove()
+		  asyncCall.callsPerHost.incrementAndGet()
+		  //添加到可执行任务集合
+		  executableCalls.add(asyncCall)//3
+		  //正在运行的异步请求队列
+		  runningAsyncCalls.add(asyncCall)//4
+		}
+		isRunning = runningCallsCount() > 0
+	  }
+
+	  for (i in 0 until executableCalls.size) {
+		val asyncCall = executableCalls[i]
+		asyncCall.executeOn(executorService)
+	  }
+
+	  return isRunning
+	}
+
+
+	RealCall.kt
+	
+	internal inner class AsyncCall(
+		private val responseCallback: Callback
+	  ) : Runnable {
+	   ...
+		fun executeOn(executorService: ExecutorService) {
+		  client.dispatcher.assertThreadDoesntHoldLock()
+		  var success = false
+		  try {
+			//开启异步任务
+			executorService.execute(this)//1
+			success = true
+		  } catch (e: RejectedExecutionException) {
+			val ioException = InterruptedIOException("executor rejected")
+			ioException.initCause(e)
+			noMoreExchanges(ioException)
+			//网络回调失败
+			responseCallback.onFailure(this@RealCall, ioException)
+		  } finally {
+			if (!success) {
+			//如果任务失败，从runningAsyncCalls将当前AsyncCall移除
+			  client.dispatcher.finished(this)
+			}
+		  }
+		}
+
+		override fun run() {
+		  threadName("OkHttp ${redactedUrl()}") {
+			var signalledCallback = false
+			timeout.enter()
+			try {
+			  //通过拦截器链来得到网络响应
+			  val response = getResponseWithInterceptorChain()//2
+			  signalledCallback = true
+			  //网络响应成功回调
+			  responseCallback.onResponse(this@RealCall, response)
+			} catch (e: IOException) {
+			  if (signalledCallback) {
+				Platform.get().log("Callback failure for ${toLoggableString()}", Platform.INFO, e)
+			  } else {
+				//网络响应失败回调
+				responseCallback.onFailure(this@RealCall, e)
+			  }
+			} catch (t: Throwable) {
+			  cancel()
+			  if (!signalledCallback) {
+				val canceledException = IOException("canceled due to $t")
+				canceledException.addSuppressed(t)
+				responseCallback.onFailure(this@RealCall, canceledException)
+			  }
+			  throw t
+			} finally {
+			  //从runningAsyncCalls将当前AsyncCall移除
+			  client.dispatcher.finished(this)//3
+			}
+		  }
+		}
+	  }
+	  
+	Dispatcher.kt
+	
+	internal fun finished(call: AsyncCall) {
+	  call.callsPerHost.decrementAndGet()
+	  finished(runningAsyncCalls, call)
+	}
+
+	private fun <T> finished(calls: Deque<T>, call: T) {
+	  val idleCallback: Runnable?
+	  synchronized(this) {
+		if (!calls.remove(call)) throw AssertionError("Call wasn't in-flight!")//1
+		idleCallback = this.idleCallback
+	  }
+
+	  val isRunning = promoteAndExecute()//2
+
+	  if (!isRunning && idleCallback != null) {
+		idleCallback.run()
+	  }
+	}
+	
+
+拦截器链
+	RealCall.kt  getResponseWithInterceptorChain
+	@Throws(IOException::class)
+	internal fun getResponseWithInterceptorChain(): Response {
+	  //创建拦截器集合
+	  val interceptors = mutableListOf<Interceptor>()//1
+	  //添加用户设置的应用拦截器
+	  interceptors += client.interceptors
+	  //负责重试和重定向
+	  interceptors += RetryAndFollowUpInterceptor(client)
+	  //用于桥接应用层和网络层的请求数据
+	  interceptors += BridgeInterceptor(client.cookieJar)
+	  //用于处理缓存
+	  interceptors += CacheInterceptor(client.cache)
+	  //网络连接拦截器，用于获取一个连接
+	  interceptors += ConnectInterceptor
+	  if (!forWebSocket) {
+	  //添加用户设置的网络拦截器
+		interceptors += client.networkInterceptors
+	  }
+	  //用于请求网络并获取网络响应
+	  interceptors += CallServerInterceptor(forWebSocket)
+	  //创建职责链
+	  val chain = RealInterceptorChain(//1
+		  call = this,
+		  interceptors = interceptors,
+		  index = 0,
+		  exchange = null,
+		  request = originalRequest,
+		  connectTimeoutMillis = client.connectTimeoutMillis,
+		  readTimeoutMillis = client.readTimeoutMillis,
+		  writeTimeoutMillis = client.writeTimeoutMillis
+	  )
+
+	  var calledNoMoreExchanges = false
+	  try {
+	  //启动职责链
+		val response = chain.proceed(originalRequest)//2
+		if (isCanceled()) {
+		  response.closeQuietly()
+		  throw IOException("Canceled")
+		}
+		return response
+	  } catch (e: IOException) {
+		calledNoMoreExchanges = true
+		throw noMoreExchanges(e) as Throwable
+	  } finally {
+		if (!calledNoMoreExchanges) {
+		  noMoreExchanges(null)
+		}
+	  }
+	}
+	
+	1.创建拦截器集合，并将所有拦截器添加进去
+	2.创建职责链，并启动    职责链模式 
+
+	RealInterceptorChain.kt、
+	@Throws(IOException::class)
+	  override fun proceed(request: Request): Response {
+		check(index < interceptors.size)
+		calls++
+		if (exchange != null) {
+		  check(exchange.connection.supportsUrl(request.url)) {
+			"network interceptor ${interceptors[index - 1]} must retain the same host and port"
+		  }
+		  check(calls == 1) {
+			"network interceptor ${interceptors[index - 1]} must call proceed() exactly once"
+		  }
+		}
+		val next = copy(index = index + 1, request = request)//1
+		val interceptor = interceptors[index]//2
+
+		@Suppress("USELESS_ELVIS")
+		val response = interceptor.intercept(next) ?: throw NullPointerException(//3
+			"interceptor $interceptor returned null")
+
+		if (exchange != null) {
+		  check(index + 1 >= interceptors.size || next.calls == 1) {
+			"network interceptor $interceptor must call proceed() exactly once"
+		  }
+		}
+		check(response.body != null) { "interceptor $interceptor returned a response with no body" }
+		return response
+	  }
+		
+	注释1处调用了RealInterceptorChain的copy方法，其内部会新建一个RealInterceptorChain，通过参数index + 1来循环interceptors中的拦截器。
+	注释2处用于获取当前要执行的拦截器。
+	注释3处运行当前的拦截器，并设置了下个拦截器。其内部的逻辑通常是：当前拦截器处理完成后会接着执行下个拦截器的proceed方法。
