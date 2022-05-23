@@ -1,4 +1,49 @@
 
+
+open class OkHttpClient internal constructor(
+  builder: Builder
+) : Cloneable, Call.Factory, WebSocket.Factory {
+	override newCall = RealCall() 
+	override newWebSocket = RealWebSocket()
+}
+
+@get:JvmName("dispatcher") val dispatcher: Dispatcher = builder.dispatcher
+	变更编译器输出的注解    看编译后class文件 
+	应用在文件上  生成的class文件名已经改了 
+	作用在方法上  方法名称已经修改
+
+internal constructor  构造函数只能在相同模块内可见
+
+建造者模式  写的真特么的简洁 好看 
+class Builder constructor() {
+    internal var dispatcher: Dispatcher = Dispatcher()
+    internal var connectionPool: ConnectionPool = ConnectionPool()
+    internal val interceptors: MutableList<Interceptor> = mutableListOf()
+	......
+	
+	internal constructor(okHttpClient: OkHttpClient) : this() { 
+		this.dispatcher = okHttpClient.dispatcher 
+		... 
+	}
+	
+	fun dispatcher(dispatcher: Dispatcher) = apply {
+      this.dispatcher = dispatcher
+    }
+
+    fun connectionPool(connectionPool: ConnectionPool) = apply {
+      this.connectionPool = connectionPool
+    }
+	......
+}
+
+
+crossinline关键字就是为了避免非局部返回
+
+
+
+
+
+===================================================================================================
 OkHttpClient
 	Dispatcher   任务调度器，控制并发的请求
 	ConnectionPool 连接池
